@@ -1,0 +1,67 @@
+﻿"Cube Title","Product Id","CANSIM Id",URL,"Cube Notes","Archive Status",Frequency,"Start Reference Period","End Reference Period","Total number of dimensions"
+"National graduates survey, student debt from all sources, by province and level of study",37100036,477-0068,"https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=3710003601",1;2;3;6,"CURRENT - a cube available to the public and that is current","Every 5 years",2000-01-01,2010-01-01,4
+
+"Dimension ID","Dimension name","Dimension Notes","Dimension Definitions"
+1,"Province of study",,
+2,"Level of study",,
+3,"Type of debt source",,
+4,Statistics,,
+
+"Dimension ID","Member Name","Classification Code","Member ID","Parent Member ID",Terminated,"Member Notes","Member Definitions"
+1,Canada,11124,1,,,4,
+1,"Newfoundland and Labrador",10,2,1,,,
+1,"Prince Edward Island",11,3,1,,,
+1,"Nova Scotia",12,4,1,,,
+1,"New Brunswick",13,5,1,,,
+1,Quebec,24,6,1,,,
+1,Ontario,35,7,1,,,
+1,Manitoba,46,8,1,,,
+1,Saskatchewan,47,9,1,,,
+1,Alberta,48,10,1,,,
+1,"British Columbia",59,11,1,,,
+2,College,,1,,,,
+2,"Bachelor's",,2,,,,
+2,"Master's",,3,,,,
+2,Doctorate,,4,,,,
+3,"Graduates who owed money for their education to any source (government or non-government)",,1,,,,
+3,"Graduates who owed money for their education to government student loan programs",,2,1,,,
+3,"Graduates who owed money for their education to non-government sources",,3,1,,,
+4,"Percentage of graduates who owed debt to the source",,1,,,,
+4,"Percentage of graduates with large debt at graduation ($25,000 and over)",,2,,,,
+4,"Average debt owed to the source at time of graduation",,3,,,5,
+4,"Percentage of graduates with debt who had paid it off  at time of interview",,4,,,,
+4,"Average debt remaining at time of interview for those who still owed",,5,,,5,
+
+Symbol Legend
+Description,Symbol
+"not available for a specific reference period",..
+"less than the limit of detection",<LOD
+"value rounded to 0 (zero) where there is a meaningful distinction between true zero and the value that was rounded",0s
+"data quality: excellent",A
+"data quality: very good",B
+"data quality: good",C
+"data quality: acceptable",D
+"use with caution",E
+"too unreliable to be published.",F
+"not applicable",...
+preliminary,p
+revised,r
+"suppressed to meet the confidentiality requirements of the Statistics Act",x
+terminated,t
+
+"Survey Code","Survey Name"
+5012,"National Graduates Survey"
+
+"Subject Code","Subject Name"
+37,"Education, training and learning"
+
+"Note ID",Note
+1,"Please note that the National Graduates Survey (NGS) 2013, class of 2009-2010 was conducted three years after graduation, whereas previous National Graduate Surveys were conducted two years after graduation. While information on graduates at the time of graduation is comparable across cycles, information on graduate's activities at the time of the interview are not directly comparable.  For example, labour market outcomes and debt repayment pertain to status three years after graduation for the NGS 2013 compared to two years after graduation for other cycles of NGS."
+2,"Graduates who pursued further education after their graduation are excluded from this table."
+3,"Caution should be used when comparing results over time due to differences in questions and wording. For example, information on non government sources of debt was captured from one question in the National Graduates Survey (NGS) 2005 (SL_Q22) and derived from three separate questions in the 2013 NGS (ST_Q33, ST_Q34, ST_Q35)."
+4,"For the province of study, ""Canada"" includes the Territories."
+5,"Dollars are rounded to the nearest 100."
+6,"The reference period of the 2000 and 2005 National Graduates Surveys (NGS) is based on a calendar year and the reference period of the 2010 NGS is based on the 2009-2010 school year."
+
+"Correction ID","Correction Date","Correction Note"
+
