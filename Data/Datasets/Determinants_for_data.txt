@@ -1,0 +1,38 @@
+Geo Location
+  *Canada-Prefer not to specify
+  *Newfoundland and Labrodor
+  *Prince Edward Island
+  *Nova Scotia
+  *New Brunswick
+  *Quebec
+  *Ontario
+  *Manitoba
+  *Saskatchewan
+  *Alberta
+  *British Columbia
+
+Education Level
+  *Bachelor's Degree
+  *Master's Degree
+  *Doctorate
+
+Field Of Study
+  *Will be factor levels (recomend enum)
+
+Sex
+  *Prefer not to specify
+  *Male
+  *Female
+
+Age
+  *Prefer not to specify
+  *Take integer and internally classify between
+     *15-34
+     *35-64
+
+Status In Canda
+  *Canadian Student
+  *International Student
+
+
+

@@ -1,1 +1,3 @@
 /bin/
+/Data/Datasets/income/*.csv
+/Data/Datasets/debt/*.csv
