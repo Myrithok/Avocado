@@ -21,10 +21,10 @@ public class User {
 	private boolean optedIn;
 	
 	//replace the types of these with enums
-	private String geoLocation;
-	private String EducationLevel;
-	private String fieldOfStudy;
-	private String sex;
+	private Location geoLocation;
+	private EducationLevel educationLevel;
+	private FieldOfStudy fieldOfStudy;
+	private Sex sex;
 	
 	public int getAgeAtGrad() {
 		
