@@ -41,13 +41,31 @@ public class User {
 	}
 	
 	public String getDebtCoordinate() {
-		
+		String out = "";
+		out += this.geoLocation.toval() + ".";
+		out += this.educationLevel.toDebtVal() + ".";
+		out += "1.";
+		out += "3";
+		return out;
 	}
 	
 	public String getIncomeCoordinate() {
+		String age = "3.";
+		if (this.getAgeAtGrad() < 35) {
+			age = "2.";
+		}
 		
+		String out = "";
+		out += this.geoLocation.toval() + ".";
+		out += this.educationLevel.toIncomeVal() + ".";
+		out += this.fieldOfStudy.toval() + ".";
+		out += this.sex.toval() + ".";
+		out += age;
+		out += "2.";
+		out += "4.";
+		out += "2";
+		return out;
 	}
-	
 	
 	public void scoreCalc() {
 		LocalDate current = new java.sql.Date(new Date().getTime()).toLocalDate();
