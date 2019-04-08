@@ -2,7 +2,7 @@ package randomBS;
 
 public class NotCurrentUser {
 	private String username;
-	double score;
+	private double score;
 	
 	public NotCurrentUser(String username, double score) {
 		this.username = username;

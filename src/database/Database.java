@@ -131,7 +131,7 @@ public class Database {
 	 */
 	//using the friendID here may be a bad idea unless we plan to implement
 	//the search features in the digraph class itself
-	public Digraph Friends(long friendID) {
+	public Friends Friends(long friendID) {
 		
 	}
 	//Friends List Functions End
