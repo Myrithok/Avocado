@@ -1,6 +1,5 @@
 package randomBS;
 
-import database.*;
 import java.util.Scanner;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -49,8 +48,6 @@ public class Session {
 		boolean validLogin;
 		String username;
 		
-		Database database = new Database();
-		
 		do {
 			System.out.print("Please Enter Your Username: ");
 			
@@ -60,8 +57,8 @@ public class Session {
 			
 			String password = sc.nextLine();
 			
-			if(database.userExsits(username)) {
-				if(database.validLogin(username, password)) {
+			if(Jdbc.userExsits(username)) {
+				if(Jdbc.validLogin(username, password)) {
 					validLogin = true;
 				}
 				else {
@@ -77,13 +74,12 @@ public class Session {
 		}while(!validLogin);
 		
 		sc.close();
-		this.user = database.loadUser(username);
+		this.user = Jdbc.loadUser(username);
 	}
 	
 	//finish after constructor for user
 	public void signup() {
 		Scanner sc = new Scanner(System.in);
-		Database database = new Database();
 		
 		//username
 		System.out.println("Welcome to the Avocado account setup wizzard");
@@ -95,7 +91,7 @@ public class Session {
 			
 			username = sc.nextLine();
 			
-			if(database.userExsits(username)) {
+			if(Jdbc.userExsits(username)) {
 				System.out.println("Invalid username Please Try again.\n");
 				validUsernameChosen = false;
 			}
@@ -157,11 +153,11 @@ public class Session {
 			try {
 				System.out.print("When did you graduate(DD/MM/YYYY): ");
 				grad = new SimpleDateFormat("dd/MM/yyyy").parse(sc.nextLine());
-				validInterest = true;
+				validGradDate = true;
 			}
 			catch(Exception e) {
 				System.out.println("Invalid choice try again.");
-				validInterest = false;
+				validGradDate = false;
 			}
 		}while(!validGradDate);
 		
@@ -240,8 +236,8 @@ public class Session {
 		
 		this.user = user;
 		
-		database.createUser(username,password);
-		database.saveUser(user);
+		Jdbc.createUser(username,password);
+		Jdbc.saveUser(user);
 		
 		homepage();
 	}
@@ -292,7 +288,7 @@ public class Session {
 		System.out.println("Your friend ID is: " + this.user.getFriendCode() + "\n");
 		
 		ArrayList<NotCurrentUser> friends =  this.user.getFriendLeaderboard();
-		ArrayList<String> suggestedFriends = this.user.getSuggested(5);
+		ArrayList<String> suggestedFriends = this.user.getSuggested();
 		
 		System.out.println("Your Friend Leaderboard\n");
 		
@@ -337,15 +333,13 @@ public class Session {
 	
 	public void addFriend() {
 		Scanner sc = new Scanner(System.in);
-		Database database = new Database();
 		System.out.print("Please add the friend code of the user you wish to share information with: ");
 		int friendID = sc.nextInt();
-		database.addFriend(this.user, friendID);
+		Jdbc.addFriend(this.user, friendID);
 	}
 	
 	public void leaderboard() {
 		Scanner sc = new Scanner(System.in);
-		Database database = new Database();
 		int rank = this.user.getRank();
 		
 		System.out.println("Welcome to your leaderboard page " + this.user.getUsername() + ".\n");
@@ -354,7 +348,7 @@ public class Session {
 		System.out.println("Leaderboard Top 5\n");
 		
 		for(int i=1; i<6; i++) {
-			NotCurrentUser user = database.getLeaderboard(i);
+			NotCurrentUser user = Jdbc.getLeaderboard(i);
 			if (!user.getUsername().equals(""))
 				System.out.print(user.getUsername() + " " + user.getScore());
 		}
@@ -362,7 +356,7 @@ public class Session {
 		System.out.println("\nLocal Leaderboard\n");
 		
 		for(int i = (rank-2); i < (rank+2); i++) {
-			NotCurrentUser user = database.getLeaderboard(i);
+			NotCurrentUser user = Jdbc.getLeaderboard(i);
 			if (!user.getUsername().equals(""))
 				System.out.print(user.getUsername() + " " + user.getScore());
 		}
@@ -374,7 +368,6 @@ public class Session {
 	
 	public void update() {
 		Scanner sc = new Scanner(System.in);
-		Database database = new Database();
 		
 		System.out.println("Welcome to your information update page " + this.user.getUsername() + ".\n");
 		
@@ -409,7 +402,7 @@ public class Session {
 				break;
 			case 2:
 				debtupdate();
-				database.updateDatabase(user);
+				Jdbc.saveUser(user);
 				update();
 				break;
 			case 3:
@@ -417,12 +410,10 @@ public class Session {
 					this.user.optOut();
 				else
 					this.user.optIn();
-				database.updateDatabase(this.user);
+				Jdbc.saveUser(this.user);
 				update();
 				break;
 		}
-			
-		database.updateDatabase(this.user);
 	}
 	
 	public void debtupdate() {
