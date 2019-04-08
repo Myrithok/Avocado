@@ -40,7 +40,6 @@ public class Session {
 			signup();
 		}
 		
-		sc.close();
 	}
 	
 	public void login() {
@@ -57,7 +56,7 @@ public class Session {
 			
 			String password = sc.nextLine();
 			
-			if(Jdbc.userExsits(username)) {
+			if(Jdbc.userExists(username)) {
 				if(Jdbc.validLogin(username, password)) {
 					validLogin = true;
 				}
@@ -73,8 +72,8 @@ public class Session {
 			
 		}while(!validLogin);
 		
-		sc.close();
 		this.user = Jdbc.loadUser(username);
+		homepage(sc);
 	}
 	
 	//finish after constructor for user
@@ -91,7 +90,7 @@ public class Session {
 			
 			username = sc.nextLine();
 			
-			if(Jdbc.userExsits(username)) {
+			if(Jdbc.userExists(username)) {
 				System.out.println("Invalid username Please Try again.\n");
 				validUsernameChosen = false;
 			}
@@ -175,7 +174,7 @@ public class Session {
 			}
 		}while(!validbirthDate);
 		
-		Location province;
+		Location province = null;
 		boolean validprovince;
 		do {
 			try {
@@ -189,7 +188,7 @@ public class Session {
 			}
 		}while(!validprovince);
 		
-		EducationLevel education;
+		EducationLevel education = null;
 		boolean valideducation;
 		do {
 			try {
@@ -203,7 +202,7 @@ public class Session {
 			}
 		}while(!valideducation);
 		
-		Sex sex;
+		Sex sex = null;
 		boolean validSex;
 		do {
 			try {
@@ -217,7 +216,7 @@ public class Session {
 			}
 		}while(!validSex);
 		
-		FieldOfStudy field;
+		FieldOfStudy field = null;
 		boolean validfield;
 		do {
 			try {
@@ -239,12 +238,11 @@ public class Session {
 		Jdbc.createUser(username,password);
 		Jdbc.saveUser(user);
 		
-		homepage();
+		homepage(sc);
 	}
 	
-	public void homepage() {
-		Scanner sc = new Scanner(System.in);
-		boolean validChoice;
+	public void homepage(Scanner sc) {
+		boolean validChoice = false;
 		int i;
 		
 		System.out.println("Welcome back " + this.user.getUsername() + ".\n");
@@ -259,7 +257,7 @@ public class Session {
 				System.out.println("     3. View Leaderboard");
 			
 			i = sc.nextInt();
-			
+
 			if(i != 1 && i != 2 && (i != 3 && this.user.optedIn())) {
 				System.out.println("Invalid Choice Made.");
 				validChoice = false;
@@ -269,21 +267,17 @@ public class Session {
 			}
 		}while(!validChoice);
 		
-		sc.close();
-		
 		switch(i) {
 			case 1:
-				friends();
+				friends(sc);
 			case 2:
-				update();
+				update(sc);
 			case 3:
-				leaderboard();
+				leaderboard(sc);
 		}
 	}
 	
-	public void friends() {
-		Scanner sc = new Scanner(System.in);
-		
+	public void friends(Scanner sc) {	
 		System.out.println("Welcome to your friends page " + this.user.getUsername() + ".\n");
 		System.out.println("Your friend ID is: " + this.user.getFriendCode() + "\n");
 		
@@ -322,24 +316,22 @@ public class Session {
 		
 		switch(choice) {
 			case 1:
-				homepage();
+				homepage(sc);
 				break;
 			case 2:
-				addFriend();
-				friends();
+				addFriend(sc);
+				friends(sc);
 				break;
 		}
 	}
 	
-	public void addFriend() {
-		Scanner sc = new Scanner(System.in);
+	public void addFriend(Scanner sc) {
 		System.out.print("Please add the friend code of the user you wish to share information with: ");
 		int friendID = sc.nextInt();
 		Jdbc.addFriend(this.user, friendID);
 	}
 	
-	public void leaderboard() {
-		Scanner sc = new Scanner(System.in);
+	public void leaderboard(Scanner sc) {
 		int rank = this.user.getRank();
 		
 		System.out.println("Welcome to your leaderboard page " + this.user.getUsername() + ".\n");
@@ -350,7 +342,7 @@ public class Session {
 		for(int i=1; i<6; i++) {
 			NotCurrentUser user = Jdbc.getLeaderboard(i);
 			if (!user.getUsername().equals(""))
-				System.out.print(user.getUsername() + " " + user.getScore());
+				System.out.println(user.getUsername() + " " + user.getScore());
 		}
 		
 		System.out.println("\nLocal Leaderboard\n");
@@ -358,16 +350,15 @@ public class Session {
 		for(int i = (rank-2); i < (rank+2); i++) {
 			NotCurrentUser user = Jdbc.getLeaderboard(i);
 			if (!user.getUsername().equals(""))
-				System.out.print(user.getUsername() + " " + user.getScore());
+				System.out.println(user.getUsername() + " " + user.getScore());
 		}
 		
 		System.out.print("Press Enter to go back.");
 		sc.nextLine();
-		homepage();
+		homepage(sc);
 	}
 	
-	public void update() {
-		Scanner sc = new Scanner(System.in);
+	public void update(Scanner sc) {
 		
 		System.out.println("Welcome to your information update page " + this.user.getUsername() + ".\n");
 		
@@ -398,12 +389,12 @@ public class Session {
 		
 		switch(choice) {
 			case 1:
-				homepage();
+				homepage(sc);
 				break;
 			case 2:
 				debtupdate();
 				Jdbc.saveUser(user);
-				update();
+				update(sc);
 				break;
 			case 3:
 				if(this.user.optedIn())
@@ -411,7 +402,7 @@ public class Session {
 				else
 					this.user.optIn();
 				Jdbc.saveUser(this.user);
-				update();
+				update(sc);
 				break;
 		}
 	}
