@@ -8,7 +8,11 @@ public class Jdbc {
 	}
 
 	public static boolean validLogin(String username, String password) {
-		return true;
+		if (username == "Apple") {
+			return false;
+		} else {
+			return true;
+		}
 	}
 
 	public static User loadUser(String username) {
@@ -27,6 +31,7 @@ public class Jdbc {
 	public static void saveUser(User u) {
 		return;
 	}
+
 	public static void createUser(String username, String password) {
 		return;
 	}
