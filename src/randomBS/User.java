@@ -2,6 +2,7 @@ package randomBS;
 
 import java.time.Period;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Date;
 
 public class User {
@@ -18,7 +19,10 @@ public class User {
 	
 	private Date gradDate;
 	private Date dateOfBirth;
-	private long friendCode;
+	private int friendCode;
+	
+	private ArrayList<NotCurrentUser> friends;
+	private ArrayList<String> suggestedFriends;
 	
 	private boolean optedIn;
 	
@@ -54,7 +58,7 @@ public class User {
 	}
 	
 	/**
-	 * Getter for median demograhic debt at graduation
+	 * Getter for median demographic debt at graduation
 	 * @return Double representing median demographic debt at graduation
 	 */
 	public double getMedianDemographicDebt() {
@@ -97,7 +101,7 @@ public class User {
 	
 	/**
 	 * Getter for the rank of the current user
-	 * @return Integer representing the rank of the current user amoung other users
+	 * @return Integer representing the rank of the current user among other users
 	 */
 	public int getRank() {
 		return this.rank;
@@ -226,7 +230,7 @@ public class User {
 	 * Setter for friend code
 	 * @param friendCode Long representing the user's friend code
 	 */
-	public void setFriendCode(long friendCode) {
+	public void setFriendCode(int friendCode) {
 		this.friendCode = friendCode;
 		this.hasChanged = true;
 	}
@@ -417,6 +421,24 @@ public class User {
 		double score = debtCorrection*normC*(payment/this.medianDemographicIncome);
 		
 		this.score = score;
+	}
+	
+	public void findFriends() {
+		int howManySuggestions = 3;
+		Friends friendGraph = new Friends();
+		//Add connected component using:
+		//friendGraph.addNode(friendCode);
+		//Add edges for each friendship using:
+		//friendGraph.addEdge(me, you);
+		FriendFinder friendSearch = new FriendFinder(friendGraph, this.friendCode, howManySuggestions);
+		ArrayList<Integer> friendCodes = friendSearch.friends();
+		ArrayList<NotCurrentUser> friendList = new ArrayList<NotCurrentUser>();
+		//Construct NotCurrentUser for each item in friendCodes and add it to friendList
+		this.friends = friendList;
+		ArrayList<Integer> suggestedCodes = friendSearch.suggestions();
+		ArrayList<String> suggestedList = new ArrayList<String>();
+		//Add username corresponding to each code in suggestedCodes to suggestedList
+		this.suggestedFriends = suggestedList;
 	}
 	
 	public static void main(String[] args) {

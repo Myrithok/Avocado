@@ -1,20 +1,20 @@
 package randomBS;
 
+import java.util.ArrayList;
+
 import edu.princeton.cs.algs4.Bag;
 
-//This uses a bag implementation. It would be easy to implement myself, but we could also use the princeton bag library if we're importing that library anyway.
 public class Friends {
-	private final int V;
+	private int V;
 	private int E;
-	private Bag<Integer>[] adj;
+	private ArrayList<Bag<Integer>> adj;
+	private ArrayList<Integer> codes;
 
-	public Friends(int V) {
-		this.V = V;
+	public Friends() {
+		this.V = 0;
 		this.E = 0;
-		adj = (Bag<Integer>[]) new Bag[V];
-		for (int v = 0; v < V; v++) {
-			adj[v] = new Bag<Integer>();
-		}
+		this.adj = new ArrayList<Bag<Integer>>();
+		this.codes = new ArrayList<Integer>();
 	}
 
 	public int V() {
@@ -25,13 +25,28 @@ public class Friends {
 		return E;
 	}
 
+	public int indexOfCode(int c) {
+		return(codes.indexOf(c));	
+	}
+	
+	public int codeAtIndex(int i) {
+		return(codes.get(i));
+	}
+	
+	public void addNode(int c) {
+		Bag<Integer> temp = new Bag<Integer>();
+		adj.add(temp);
+		codes.add(c);
+		V++;
+	}
+
 	public void addEdge(int v, int w) {
-		adj[v].add(w);
+		adj.get(codes.indexOf(v)).add(codes.indexOf(w));
 		E++;
 	}
 
 	public Iterable<Integer> friendsOf(int v) {
-		return adj[v];
+		return adj.get(v);
 	}
 
 	public static void main(String[] args) {
