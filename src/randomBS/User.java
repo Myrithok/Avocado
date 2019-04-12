@@ -55,8 +55,8 @@ public class User {
 	}
 
 	public User(String username, double incomeData, double debtData, double gradDebt, double debt, double interest,
-			Date grad, Date birth, boolean opted, String province, String education, String field,
-			String sex, int friendCode) {
+			Date grad, Date birth, boolean opted, String province, String education, String field, String sex,
+			int friendCode) {
 		this.username = username;
 		this.medianDemographicIncome = incomeData;
 		this.medianDemographicDebt = debtData;
@@ -234,7 +234,7 @@ public class User {
 	public Date getGradDate() {
 		return this.gradDate;
 	}
-	
+
 	public String getGradDateS() {
 		return this.gradDate.toString();
 	}
@@ -258,7 +258,7 @@ public class User {
 	public Date getDateOfBirth() {
 		return this.dateOfBirth;
 	}
-	
+
 	public String getDateOfBirthS() {
 		return this.dateOfBirth.toString();
 	}
@@ -327,7 +327,7 @@ public class User {
 	public Sex getSex() {
 		return this.sex;
 	}
-	
+
 	public String getSexS() {
 		return this.sex.toString();
 	}
@@ -351,7 +351,7 @@ public class User {
 	public Location getLocation() {
 		return this.geoLocation;
 	}
-	
+
 	public String getLocationS() {
 		return this.geoLocation.toString();
 	}
@@ -375,7 +375,7 @@ public class User {
 	public FieldOfStudy getFieldOfStudy() {
 		return this.fieldOfStudy;
 	}
-	
+
 	public String getFieldOfStudyS() {
 		return this.fieldOfStudy.toString();
 	}
@@ -399,7 +399,7 @@ public class User {
 	public EducationLevel getEduationLevel() {
 		return this.educationLevel;
 	}
-	
+
 	public String getEduationLevelS() {
 		return this.educationLevel.toString();
 	}
@@ -522,37 +522,33 @@ public class User {
 		Random random = new Random();
 		while (!generated) {
 			code = random.nextInt();
-			/*
-			 * if(!friendCodeExists(code)){ generated = true; }
-			 */
+			if (!Jdbc.friendCodeExists(code)) {
+				generated = true;
+			}
 			generated = true;
 		}
 		this.friendCode = code;
 	}
 
 	private void getMedianData() {
-		// this.medianDemographicDebt = getDebtData(this.getDebtCoordinate());
-		// this.medianDemographicIncome = getIncomeData(this.getIncomeCoordinate());
+		this.medianDemographicDebt = Jdbc.getDebtData(this.getDebtCoordinate());
+		this.medianDemographicIncome = Jdbc.getIncomeData(this.getIncomeCoordinate());
 	}
 
 	private void findFriends() {
-		/*
-		int howManySuggestions = 5;
-		Friends friendGraph = new Friends();
-		// Add connected component using:
-		// friendGraph.addNode(friendCode);
-		// Add edges for each friendship using:
-		// friendGraph.addEdge(me, you);
-		FriendFinder friendSearch = new FriendFinder(friendGraph, this.friendCode, howManySuggestions);
-		ArrayList<Integer> friendCodes = friendSearch.friends();
-		*/
+		 int howManySuggestions = 5; 
+		 Friends friendGraph = new Friends(); // Add connected component using: 
+		 // friendGraph.addNode(friendCode); // Add edges
+		 for each friendship using: // friendGraph.addEdge(me, you); FriendFinder
+		 friendSearch = new FriendFinder(friendGraph, this.friendCode,
+		 howManySuggestions); ArrayList<Integer> friendCodes = friendSearch.friends();
 		ArrayList<NotCurrentUser> friendList = new ArrayList<NotCurrentUser>();
 		// Construct NotCurrentUser for each item in friendCodes and add it to
 		// friendList
 		this.friends = friendList;
 		/*
-		ArrayList<Integer> suggestedCodes = friendSearch.suggestions();
-		*/
+		 * ArrayList<Integer> suggestedCodes = friendSearch.suggestions();
+		 */
 		ArrayList<String> suggestedList = new ArrayList<String>();
 		// Add username corresponding to each code in suggestedCodes to suggestedList
 		this.suggestedFriends = suggestedList;
@@ -579,7 +575,7 @@ public class User {
 		// Dakota test area
 
 		// Andrew test area
-		
+
 		// Erfan test area
 
 		// Daniel test area

@@ -35,4 +35,17 @@ public class Jdbc {
 	public static void createUser(String username, String password) {
 		return;
 	}
+	
+	public static boolean friendCodeExists(int code) {
+		return false;
+	}
+	public static double getDebtData(String coord) {
+		return 100.0;
+	}
+	public static double getIncomeData(String coord) {
+		return 100.0;
+	}
+	public static ArrayList<Integer> getConnectedPeople(int code){
+		
+	}
 }
