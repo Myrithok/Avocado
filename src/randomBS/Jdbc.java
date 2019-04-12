@@ -1,5 +1,6 @@
 package randomBS;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 public class Jdbc {
@@ -46,6 +47,10 @@ public class Jdbc {
 		return 100.0;
 	}
 	public static ArrayList<Integer> getConnectedPeople(int code){
-		
+		ArrayList<Integer> test = new ArrayList<Integer>();
+		test.add(101);
+		test.add(202);
+		test.add(303);
+		return test;
 	}
 }
