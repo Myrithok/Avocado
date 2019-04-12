@@ -72,7 +72,8 @@ public class User {
 		this.sex = Sex.valueOf(sex);
 		this.scoreCalc();
 		this.friendCode = friendCode;
-		this.findFriends();
+		//this.findFriends();
+		this.rank = 1;
 	}
 
 	// getters and setters
