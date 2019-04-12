@@ -35,7 +35,7 @@ public class User {
 
 	private boolean hasChanged;
 
-	public User(String username, double gradDebt, double debt, double interest, Date grad, Date birth, boolean opted,
+	public User(String username, double gradDebt, double debt, double interest, Date grad, Date birth,
 			Location province, EducationLevel education, FieldOfStudy field, Sex sex) {
 		this.username = username;
 		this.debtAtGrad = gradDebt;
@@ -43,7 +43,7 @@ public class User {
 		this.interestRate = interest;
 		this.gradDate = grad;
 		this.dateOfBirth = birth;
-		this.optedIn = opted;
+		this.optedIn = false;
 		this.geoLocation = province;
 		this.educationLevel = education;
 		this.fieldOfStudy = field;
@@ -526,6 +526,7 @@ public class User {
 			/*
 			 * if(!friendCodeExists(code)){ generated = true; }
 			 */
+			generated = true;
 		}
 		this.friendCode = code;
 	}
@@ -536,6 +537,7 @@ public class User {
 	}
 
 	private void findFriends() {
+		/*
 		int howManySuggestions = 5;
 		Friends friendGraph = new Friends();
 		// Add connected component using:
@@ -544,11 +546,14 @@ public class User {
 		// friendGraph.addEdge(me, you);
 		FriendFinder friendSearch = new FriendFinder(friendGraph, this.friendCode, howManySuggestions);
 		ArrayList<Integer> friendCodes = friendSearch.friends();
+		*/
 		ArrayList<NotCurrentUser> friendList = new ArrayList<NotCurrentUser>();
 		// Construct NotCurrentUser for each item in friendCodes and add it to
 		// friendList
 		this.friends = friendList;
+		/*
 		ArrayList<Integer> suggestedCodes = friendSearch.suggestions();
+		*/
 		ArrayList<String> suggestedList = new ArrayList<String>();
 		// Add username corresponding to each code in suggestedCodes to suggestedList
 		this.suggestedFriends = suggestedList;

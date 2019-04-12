@@ -1,8 +1,9 @@
 package randomBS;
 
-import database.*;
 import java.util.Scanner;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class Session {
 	int ID;
@@ -39,15 +40,12 @@ public class Session {
 			signup();
 		}
 		
-		sc.close();
 	}
 	
 	public void login() {
 		Scanner sc = new Scanner(System.in);
 		boolean validLogin;
 		String username;
-		
-		Database database = new Database();
 		
 		do {
 			System.out.print("Please Enter Your Username: ");
@@ -58,8 +56,8 @@ public class Session {
 			
 			String password = sc.nextLine();
 			
-			if(database.userExsits(username)) {
-				if(database.validLogin(username, password)) {
+			if(Jdbc.userExists(username)) {
+				if(Jdbc.validLogin(username, password)) {
 					validLogin = true;
 				}
 				else {
@@ -74,27 +72,26 @@ public class Session {
 			
 		}while(!validLogin);
 		
-		sc.close();
-		this.user = database.loadUser(username);
+		this.user = Jdbc.loadUser(username);
+		homepage(sc);
 	}
 	
 	//finish after constructor for user
 	public void signup() {
 		Scanner sc = new Scanner(System.in);
-		Database database = new Database();
-		boolean validUsernameChosen;
 		
 		//username
-		String username;
 		System.out.println("Welcome to the Avocado account setup wizzard");
 		
+		String username;
+		boolean validUsernameChosen;
 		do {
 			System.out.print("Choose a username: ");
 			
 			username = sc.nextLine();
 			
-			if(database.userExsits(username)) {
-				System.out.println("Invalid username Chosen Please Try again.\n");
+			if(Jdbc.userExists(username)) {
+				System.out.println("Invalid username Please Try again.\n");
 				validUsernameChosen = false;
 			}
 			else {
@@ -103,18 +100,149 @@ public class Session {
 			
 		}while(!validUsernameChosen);
 		
-		User user = new User();
+		String password;
+		System.out.print("Choose a password: ");
+		password = sc.nextLine();
+		
+		double gradDebt = 0.0;
+		boolean validGradDebt;
+		do {
+			try {
+				System.out.print("What was your debt at graduation: ");
+				gradDebt = sc.nextDouble();
+				validGradDebt = true;
+			}
+			catch(Exception e) {
+				System.out.println("Invalid choice try again.");
+				validGradDebt = false;
+			}
+		}while(!validGradDebt);
+		
+		double debt = 0.0;
+		boolean validDebt;
+		do {
+			try {
+				System.out.print("What is your current debt: ");
+				gradDebt = sc.nextDouble();
+				validDebt = true;
+			}
+			catch(Exception e) {
+				System.out.println("Invalid choice try again.");
+				validDebt = false;
+			}
+		}while(!validDebt);
+		
+		double interest = 0.0;
+		boolean validInterest;
+		do {
+			try {
+				System.out.print("What is the interest rate on your debt: ");
+				interest = sc.nextDouble();
+				validInterest = true;
+			}
+			catch(Exception e) {
+				System.out.println("Invalid choice try again.");
+				validInterest = false;
+			}
+		}while(!validInterest);
+		
+		Date grad = new Date();
+		boolean validGradDate;
+		do {
+			try {
+				System.out.print("When did you graduate(DD/MM/YYYY): ");
+				grad = new SimpleDateFormat("dd/MM/yyyy").parse(sc.nextLine());
+				validGradDate = true;
+			}
+			catch(Exception e) {
+				System.out.println("Invalid choice try again.");
+				validGradDate = false;
+			}
+		}while(!validGradDate);
+		
+		Date birth = new Date();
+		boolean validbirthDate;
+		do {
+			try {
+				System.out.print("When were you born(DD/MM/YYYY): ");
+				birth = new SimpleDateFormat("dd/MM/yyyy").parse(sc.nextLine());
+				validbirthDate = true;
+			}
+			catch(Exception e) {
+				System.out.println("Invalid choice try again.");
+				validbirthDate = false;
+			}
+		}while(!validbirthDate);
+		
+		Location province = null;
+		boolean validprovince;
+		do {
+			try {
+				System.out.print("What province do you live in(Include No Spaces): ");
+				province = Location.valueOf(sc.nextLine());
+				validprovince = true;
+			}
+			catch(Exception e) {
+				System.out.println("Invalid choice try again.");
+				validprovince = false;
+			}
+		}while(!validprovince);
+		
+		EducationLevel education = null;
+		boolean valideducation;
+		do {
+			try {
+				System.out.print("What province do you live in(Include No Spaces): ");
+				education = EducationLevel.valueOf(sc.nextLine());
+				valideducation = true;
+			}
+			catch(Exception e) {
+				System.out.println("Invalid choice try again.");
+				valideducation = false;
+			}
+		}while(!valideducation);
+		
+		Sex sex = null;
+		boolean validSex;
+		do {
+			try {
+				System.out.print("What province do you live in(Include No Spaces): ");
+				sex = Sex.valueOf(sc.nextLine());
+				validSex = true;
+			}
+			catch(Exception e) {
+				System.out.println("Invalid choice try again.");
+				validSex = false;
+			}
+		}while(!validSex);
+		
+		FieldOfStudy field = null;
+		boolean validfield;
+		do {
+			try {
+				System.out.print("What province do you live in(Include No Spaces): ");
+				field = FieldOfStudy.valueOf(sc.nextLine());
+				validfield = true;
+			}
+			catch(Exception e) {
+				System.out.println("Invalid choice try again.");
+				validfield = false;
+			}
+		}while(!validfield);
+		
+		User user = new  User(username, gradDebt, debt, interest, grad, birth,
+				province, education, field, sex);
 		
 		this.user = user;
 		
-		database.createUser(user);
+		Jdbc.createUser(username,password);
+		Jdbc.saveUser(user);
 		
-		homepage();
+		homepage(sc);
 	}
 	
-	public void homepage() {
-		Scanner sc = new Scanner(System.in);
-		boolean validChoice;
+	public void homepage(Scanner sc) {
+		boolean validChoice = false;
 		int i;
 		
 		System.out.println("Welcome back " + this.user.getUsername() + ".\n");
@@ -129,7 +257,7 @@ public class Session {
 				System.out.println("     3. View Leaderboard");
 			
 			i = sc.nextInt();
-			
+
 			if(i != 1 && i != 2 && (i != 3 && this.user.optedIn())) {
 				System.out.println("Invalid Choice Made.");
 				validChoice = false;
@@ -139,26 +267,22 @@ public class Session {
 			}
 		}while(!validChoice);
 		
-		sc.close();
-		
 		switch(i) {
 			case 1:
-				friends();
+				friends(sc);
 			case 2:
-				update();
+				update(sc);
 			case 3:
-				leaderboard();
+				leaderboard(sc);
 		}
 	}
 	
-	public void friends() {
-		Scanner sc = new Scanner(System.in);
-		
+	public void friends(Scanner sc) {	
 		System.out.println("Welcome to your friends page " + this.user.getUsername() + ".\n");
 		System.out.println("Your friend ID is: " + this.user.getFriendCode() + "\n");
 		
 		ArrayList<NotCurrentUser> friends =  this.user.getFriendLeaderboard();
-		ArrayList<String> suggestedFriends = this.user.getSuggested(5);
+		ArrayList<String> suggestedFriends = this.user.getSuggested();
 		
 		System.out.println("Your Friend Leaderboard\n");
 		
@@ -173,14 +297,41 @@ public class Session {
 			System.out.println(i);
 		}
 		
-		System.out.print("Press Enter to go back.");
-		sc.nextLine();
-		homepage();
+		boolean valid;
+		int choice;
+		
+		do {
+			System.out.println("Would you like to:");
+			System.out.println("     1. Go back to the homepage.");
+			System.out.println("     2. Add a friend.");
+			choice = sc.nextInt();
+			
+			if(choice != 1 && choice != 2) {
+				System.out.println("Invalid selection please try again");
+				valid = false;
+			}
+			else
+				valid = true;
+		}while(!valid);
+		
+		switch(choice) {
+			case 1:
+				homepage(sc);
+				break;
+			case 2:
+				addFriend(sc);
+				friends(sc);
+				break;
+		}
 	}
 	
-	public void leaderboard() {
-		Scanner sc = new Scanner(System.in);
-		Database database = new Database();
+	public void addFriend(Scanner sc) {
+		System.out.print("Please add the friend code of the user you wish to share information with: ");
+		int friendID = sc.nextInt();
+		Jdbc.addFriend(this.user, friendID);
+	}
+	
+	public void leaderboard(Scanner sc) {
 		int rank = this.user.getRank();
 		
 		System.out.println("Welcome to your leaderboard page " + this.user.getUsername() + ".\n");
@@ -189,27 +340,25 @@ public class Session {
 		System.out.println("Leaderboard Top 5\n");
 		
 		for(int i=1; i<6; i++) {
-			NotCurrentUser user = database.getLeaderboard(i);
+			NotCurrentUser user = Jdbc.getLeaderboard(i);
 			if (!user.getUsername().equals(""))
-				System.out.print(user.getUsername() + " " + user.getScore());
+				System.out.println(user.getUsername() + " " + user.getScore());
 		}
 		
 		System.out.println("\nLocal Leaderboard\n");
 		
 		for(int i = (rank-2); i < (rank+2); i++) {
-			NotCurrentUser user = database.getLeaderboard(i);
+			NotCurrentUser user = Jdbc.getLeaderboard(i);
 			if (!user.getUsername().equals(""))
-				System.out.print(user.getUsername() + " " + user.getScore());
+				System.out.println(user.getUsername() + " " + user.getScore());
 		}
 		
 		System.out.print("Press Enter to go back.");
 		sc.nextLine();
-		homepage();
+		homepage(sc);
 	}
 	
-	public void update() {
-		Scanner sc = new Scanner(System.in);
-		Database database = new Database();
+	public void update(Scanner sc) {
 		
 		System.out.println("Welcome to your information update page " + this.user.getUsername() + ".\n");
 		
@@ -240,24 +389,22 @@ public class Session {
 		
 		switch(choice) {
 			case 1:
-				homepage();
+				homepage(sc);
 				break;
 			case 2:
 				debtupdate();
-				database.updateDatabase(user);
-				update();
+				Jdbc.saveUser(user);
+				update(sc);
 				break;
 			case 3:
 				if(this.user.optedIn())
 					this.user.optOut();
 				else
 					this.user.optIn();
-				database.updateDatabase(this.user);
-				update();
+				Jdbc.saveUser(this.user);
+				update(sc);
 				break;
 		}
-			
-		database.updateDatabase(this.user);
 	}
 	
 	public void debtupdate() {
