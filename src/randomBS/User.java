@@ -1,6 +1,8 @@
 package randomBS;
 
 import java.time.Period;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -55,7 +57,7 @@ public class User {
 	}
 
 	public User(String username, double incomeData, double debtData, double gradDebt, double debt, double interest,
-			Date grad, Date birth, boolean opted, String province, String education, String field, String sex,
+			String grad, String birth, boolean opted, String province, String education, String field, String sex,
 			int friendCode) {
 		this.username = username;
 		this.medianDemographicIncome = incomeData;
@@ -63,8 +65,12 @@ public class User {
 		this.debtAtGrad = gradDebt;
 		this.currentDebt = debt;
 		this.interestRate = interest;
-		this.gradDate = grad;
-		this.dateOfBirth = birth;
+		try {
+			this.gradDate = new SimpleDateFormat("yyyy-MM-dd").parse(grad);
+			this.dateOfBirth = new SimpleDateFormat("yyyy-MM-dd").parse(birth);
+		} catch (ParseException e) {
+			//Oh No
+		}
 		this.optedIn = opted;
 		this.geoLocation = Location.valueOf(province);
 		this.educationLevel = EducationLevel.valueOf(education);
@@ -237,7 +243,7 @@ public class User {
 	}
 
 	public String getGradDateS() {
-		return this.gradDate.toString();
+		return new SimpleDateFormat("yyyy-MM-dd").format(gradDate);
 	}
 
 	/**
@@ -261,7 +267,7 @@ public class User {
 	}
 
 	public String getDateOfBirthS() {
-		return this.dateOfBirth.toString();
+		return new SimpleDateFormat("yyyy-MM-dd").format(dateOfBirth);
 	}
 
 	/**
