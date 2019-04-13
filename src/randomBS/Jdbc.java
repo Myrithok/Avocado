@@ -22,6 +22,9 @@ import java.util.Scanner;
 
 public class Jdbc {
 	public static void main(String[] args) throws Exception {
+		//addFriend(10,74);
+		//addFriend(10,61);
+		//addFriend(10,96);
 		//createUserTable();
 		//createUser("Dakota", "Loveanime");
 		//createUser("BOB", "Loveanime");
@@ -137,7 +140,7 @@ public class Jdbc {
 	         int FRIENDCODE = result.getInt("FRIENDCODE");
 	         int RANK = result.getInt("USERRANK");
 		}
-		//return (new User(USERNAME, INCOMEDATA, DEBTDATA, GRADDEBT, DEBT, INTEREST, GRAD, BIRTH, OPTED, PROVINCE, EDUCATION, FIELD, SEX, FRIENDCODE));
+		return (new User(USERNAME, INCOMEDATA, DEBTDATA, GRADDEBT, DEBT, INTEREST, GRAD, BIRTH, OPTED, PROVINCE, EDUCATION, FIELD, SEX, FRIENDCODE));
 		}
 	
 		catch(Exception e){
@@ -201,7 +204,7 @@ public class Jdbc {
 		}
 	}	
 	
-	public static void InsertFriend(int ME, int YOU) throws Exception {
+	public static void addFriend(int ME, int YOU) throws Exception {
 		try {
 			Connection con = getConnection();
 			String InsertFriendSQL = ("INSERT INTO FRIEND"
@@ -424,6 +427,33 @@ public class Jdbc {
 		return null;
 	}
 	
+	public static ArrayList<NotCurrentUser> getFriends(int code){
+		//Take friend code, return ArrayList<NotCurrentUser> of friends.
+		ArrayList<NotCurrentUser> out = new ArrayList<NotCurrentUser>();
+		NotCurrentUser temp = new NotCurrentUser("Faizan", 420);
+		try {
+			Connection con = getConnection();
+			String queryGetFriends = "Select YOU from FRIEND WHERE ME = " + code;
+			PreparedStatement statement = con.prepareStatement(queryGetFriends);
+			ResultSet result = statement.executeQuery();
+			while (result.next()) {
+				String queryGetNotCurrentUser = "Select USERNAME, SCORE from LOGIN_TB where FRIENDCODE = " + result.getInt("YOU");
+				statement = con.prepareStatement(queryGetNotCurrentUser);
+				ResultSet friends = statement.executeQuery();
+				out.add(new NotCurrentUser (friends.getString("USERNAME"), friends.getFloat("SCORE")));
+			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		out.add(temp);
+		for (NotCurrentUser n  : out) {
+			System.out.println("USERNAME: " + n.getUsername());
+			System.out.println("SCORE: " + n.getScore());
+		}
+		return out;
+	}
 	
 	/**
 	 * @return array of users and passwords
