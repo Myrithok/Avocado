@@ -536,21 +536,28 @@ public class User {
 	}
 
 	private void findFriends() {
-		 int howManySuggestions = 5; 
-		 Friends friendGraph = new Friends(); // Add connected component using: 
-		 // friendGraph.addNode(friendCode); // Add edges
-		 for each friendship using: // friendGraph.addEdge(me, you); FriendFinder
-		 friendSearch = new FriendFinder(friendGraph, this.friendCode,
-		 howManySuggestions); ArrayList<Integer> friendCodes = friendSearch.friends();
+		int howManySuggestions = 5;
+		Friends friendGraph = new Friends();
+		ArrayList<Integer> people = Jdbc.getConnectedPeople(friendCode);
+		for (int p : people) {
+			friendGraph.addNode(p);
+		}
+		ArrayList<ArrayList<Integer>> connections = Jdbc.getConnections(people);
+		for (ArrayList<Integer> f : connections) {
+			friendGraph.addEdge(f.get(0), f.get(1));
+		}
+		FriendFinder friendSearch = new FriendFinder(friendGraph, friendCode, howManySuggestions);
+		ArrayList<Integer> friendCodes = friendSearch.friends();
 		ArrayList<NotCurrentUser> friendList = new ArrayList<NotCurrentUser>();
-		// Construct NotCurrentUser for each item in friendCodes and add it to
-		// friendList
+		for (int f : friendCodes) {
+			friendList.add(Jdbc.getFriend(f));
+		}
 		this.friends = friendList;
-		/*
-		 * ArrayList<Integer> suggestedCodes = friendSearch.suggestions();
-		 */
+		ArrayList<Integer> suggestedCodes = friendSearch.suggestions();
 		ArrayList<String> suggestedList = new ArrayList<String>();
-		// Add username corresponding to each code in suggestedCodes to suggestedList
+		for (int c : suggestedCodes) {
+			suggestedList.add(Jdbc.getDistant(c));
+		}
 		this.suggestedFriends = suggestedList;
 	}
 

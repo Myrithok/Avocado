@@ -73,7 +73,6 @@ public class FriendFinder {
 		test.addEdge(5, 42);
 		test.addEdge(60, 10);
 		test.addEdge(60, 832);
-		System.out.println(test.V());
 		FriendFinder test2 = new FriendFinder(test, 5, 2);
 		System.out.println(test2.friends().toString());
 		System.out.println(test2.suggestions().toString());
