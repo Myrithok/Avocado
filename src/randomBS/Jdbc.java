@@ -24,15 +24,27 @@ public class Jdbc {
 	public static void main(String[] args) throws Exception {
 		//createUserTable();
 		//createUser("Dakota", "Loveanime");
-		//saveUser(new User("BOB", 1, 2, 3, 4, 5, new Date(0), new Date(0), true, "Ontario", "Bachelor", "Education", "Male", 500));
-		//saveUser(new User("Dakota", 5,4,3,2,1, new Date(0), new Date(0), true, "Ontario", "Master", "Education", "Female", 200));
-		
-		createUser("Erfan", "alwaysfresh");
-		saveUser(new User("Erfan", 10,3,4,6,0, new Date(0), new Date(0), false, "Ontario", "Phd", "Education", "Female", 1));
+		//createUser("BOB", "Loveanime");
+		//saveUser(new User("BOB", 1, 2, 3, 40000, 5, new Date(0), new Date(0), true, "Ontario", "Bachelor", "Education", "Male", 500));
+		//saveUser(new User("Dakota", 5,4,3,200000,1, new Date(0), new Date(0), true, "Ontario", "Master", "Education", "Female", 200));
+		//createUser("TESTONE", "Loveanime");
+		//saveUser(new User("TESTONE", 1, 2, 3, 100000, 5, new Date(0), new Date(0), true, "Ontario", "Bachelor", "Education", "Male", 500));
+		//createUser("TESTTWO", "Loveanime");
+		//saveUser(new User("TESTTWO", 1, 2, 3, 20000, 5, new Date(0), new Date(0), true, "Ontario", "Bachelor", "Education", "Male", 500));
+		//createUser("TESTTHREE", "Loveanime");
+		//saveUser(new User("TESTTHREE", 1, 2, 3, 3000, 5, new Date(0), new Date(0), true, "Ontario", "Bachelor", "Education", "Male", 500));
+		//NotCurrentUser ncu = getLeaderboard(2);
+		//System.out.println("USERNAME: " + ncu.getUsername());
+		//System.out.println("SCORE: " + ncu.getScore());
+		//createUser("Erfan", "alwaysfresh");
+		//saveUser(new User("Erfan", 10,3,4,6,0, new Date(0), new Date(0), false, "Ontario", "Phd", "Education", "Female", 1));
 		//loadUser("haha1");
 		//userExsits("BOB");
-		
 		//userExsits("Dakota");
+		
+		//getDebtData("1.1.1.3");
+		//getIncomeData("1.4.1.1.1.1.4.2");
+		//getFriend(200);
 		
 		//createFriendTable();
 		//InsertFriend(1,5);
@@ -47,8 +59,6 @@ public class Jdbc {
 		//updatePassword("haha", "niceass" );
 	}
 
-	
-	
 	public static boolean validLogin(String username, String password) {
 		try {
 			Connection con = getConnection();
@@ -80,7 +90,6 @@ public class Jdbc {
 		return false;
 	} 
 	
-
 	public static boolean userExsits(String user) throws Exception {
 		try {
 			Connection con = getConnection();
@@ -157,25 +166,26 @@ public class Jdbc {
 				  + " FIELD = '"+U.getFieldOfStudy()+"',"
 				  + " SEX = '"+U.getSexS()+"',"
 				  + " FRIENDCODE = "+U.getFriendCode()+","
-				  + " USERRANK = "+U.getRank()
+				  + " USERRANK = "+U.getRank()+","
+				  + " SCORE = "+U.getScore()
 				  + " WHERE USERNAME like '"+U.getUsername()+"'" );
 		  System.out.println(UpdateSQL);
 	  PreparedStatement updated = con.prepareStatement(UpdateSQL);
 	  updated.executeUpdate();
+	  setRanks();
 
 	  } catch(Exception e){ System.out.println(e); } finally {
 	  System.out.println("successfully updated"); } }
 
-	
 	public static void createUser(String username, String password) throws Exception {
 		try {
 			Connection con = getConnection();
 			String InsertSQL = ("INSERT INTO LOGIN_TB" 
 					+ "(USERNAME, PASSWORD, INCOMEDATA, DEBTDATA, GRADDEBT,"
 					+ "DEBT, INTEREST, GRAD, BIRTH, OPTED, PROVINCE, EDUCATION, FIELD,"
-					+ "SEX, FRIENDCODE, USERRANK) " 
+					+ "SEX, FRIENDCODE, USERRANK,SCORE) " 
 					+ "VALUES(?,?,NULL,NULL,NULL,NULL,NULL,NULL,NULL,"
-					+ "NULL,NULL,NULL,NULL,NULL,NULL,NULL)");
+					+ "NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL)");
 			PreparedStatement posted = con.prepareStatement(InsertSQL);
 			posted.setString(1, username);
 			posted.setString(2, password);
@@ -266,7 +276,6 @@ public class Jdbc {
 		}
 	}
 	
-	
 	public static void createUserTable() throws Exception {
 		try {
 			Connection con = getConnection(); // getting connected to the database
@@ -287,6 +296,7 @@ public class Jdbc {
 					+ "SEX VARCHAR(50),"
 					+ "FRIENDCODE INT,"
 					+ "USERRANK INT,"
+					+ "SCORE FLOAT(50),"
 					+ "PRIMARY KEY(USERNAME))");
 			PreparedStatement create = con.prepareStatement(sql); // getting sql statement to be ready to use (not used											
 			create.executeUpdate();
@@ -299,6 +309,122 @@ public class Jdbc {
 		}
 	}
 
+
+	public static NotCurrentUser getLeaderboard(int r) {
+		try {
+			// ESTABLISH CONNECTION WITH DATABASE
+			Connection con = getConnection();
+			String queryGetUser = "select USERNAME, SCORE from UP.LOGIN_TB where OPTED=1 and USERRANK = "+ r;
+			PreparedStatement statement = con.prepareStatement(queryGetUser);
+			ResultSet result = statement.executeQuery();
+			if(result.next()) {
+				return (new NotCurrentUser(result.getString("USERNAME"), result.getInt("SCORE")));
+			}
+			return (new NotCurrentUser("NOT FOUND", 0));
+			// SQL statement required to Select all data from database
+			//String 
+			} catch (Exception e) {
+		
+			}
+		return (new NotCurrentUser("NOT FOUND", 0));
+	}
+	
+	private static void setRanks() {
+		try {
+			Connection con = getConnection();
+			String queryGetRank = ("Select USERNAME, ROW_NUMBER() OVER (order by SCORE DESC) as 'RANK' from UP.LOGIN_TB WHERE OPTED=1 order by SCORE");
+			PreparedStatement statement = con.prepareStatement(queryGetRank);
+			ResultSet result = statement.executeQuery();
+			int rank = 0;
+			while(result.next()) {
+				String querySetRank = "UPDATE LOGIN_TB SET USERRANK = " + result.getInt("RANK") + " WHERE USERNAME = '" + result.getString("USERNAME")+"' AND OPTED=1";
+				PreparedStatement saveRank = con.prepareStatement(querySetRank);
+				saveRank.executeUpdate();
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+	}
+	
+	public static double getDebtData(String coord) {
+		try {
+		Connection con = getConnection();
+		String DebtSelect = "SELECT DE_VALUE FROM debt_min WHERE DE_COORDINATE = '" + coord + "'";
+		PreparedStatement statement = con.prepareStatement(DebtSelect);
+		ResultSet result = statement.executeQuery();
+		
+		if(result.next()) {
+			System.out.println(result.getFloat("DE_VALUE"));
+			return result.getFloat("DE_VALUE");
+		}
+		}
+	
+		catch(Exception e){
+			e.printStackTrace();
+		}
+		return 0;
+	}
+	
+	public static double getIncomeData(String coord) {
+		try {
+		Connection con = getConnection();
+		String IncomeSelect = "SELECT IN_VALUE FROM income_min WHERE IN_COORDINATE = '" + coord + "'";
+		PreparedStatement statement = con.prepareStatement(IncomeSelect);
+		ResultSet result = statement.executeQuery();
+		
+		if(result.next()) {
+			System.out.println(result.getFloat("IN_VALUE"));
+			return result.getInt("IN_VALUE");
+			}
+		}
+	
+		catch(Exception e){
+			e.printStackTrace();
+		}
+		//return 100.0;
+		return 0;
+	}
+	
+	//public static NotCurrentUser getFriend(int code) { //friendcode
+	//	return (new NotCurrentUser("User", 100));      //notCurrent user, friendcode
+	public static NotCurrentUser getFriend(int code) {
+		try {
+			Connection con = getConnection();
+			String getFriendQuery = "SELECT USERNAME, SCORE FROM LOGIN_TB WHERE FRIENDCODE = '" + code + "'";
+			PreparedStatement statement = con.prepareStatement(getFriendQuery);
+			ResultSet result = statement.executeQuery();
+			if(result.next()) {
+				//System.out.println(result.getInt("FRIENDCODE"));
+				//System.out.println(result.getString("USERNAME"));
+				return (new NotCurrentUser(result.getString("USERNAME"),result.getInt("SCORE")));
+			}
+			
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	
+	public static String getDistant(int code) {  
+		try {
+			Connection con = getConnection();
+			String getFrdQuery = "SELECT USERNAME FROM LOGIN_TB WHERE FRIENDCODE = '" + code + "'";
+			PreparedStatement statement = con.prepareStatement(getFrdQuery);
+			ResultSet result = statement.executeQuery();
+			if(result.next()) {
+				return (result.getString("USERNAME"));	
+			}//user
+	}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	
 	/**
 	 * @return array of users and passwords
 	 * @throws Exception
