@@ -538,28 +538,8 @@ public class User {
 
 	private void findFriends() {
 		int howManySuggestions = 5;
-		Friends friendGraph = new Friends();
-		ArrayList<Integer> people = Jdbc.getConnectedPeople(friendCode);
-		for (int p : people) {
-			friendGraph.addNode(p);
-		}
-		ArrayList<ArrayList<Integer>> connections = Jdbc.getConnections(people);
-		for (ArrayList<Integer> f : connections) {
-			friendGraph.addEdge(f.get(0), f.get(1));
-		}
-		FriendFinder friendSearch = new FriendFinder(friendGraph, friendCode, howManySuggestions);
-		ArrayList<Integer> friendCodes = friendSearch.friends();
-		ArrayList<NotCurrentUser> friendList = new ArrayList<NotCurrentUser>();
-		for (int f : friendCodes) {
-			friendList.add(Jdbc.getFriend(f));
-		}
-		this.friends = friendList;
-		ArrayList<Integer> suggestedCodes = friendSearch.suggestions();
-		ArrayList<String> suggestedList = new ArrayList<String>();
-		for (int c : suggestedCodes) {
-			suggestedList.add(Jdbc.getDistant(c));
-		}
-		this.suggestedFriends = suggestedList;
+		this.friends = Jdbc.getFriends(friendCode);
+		this.suggestedFriends = Jdbc.getSuggested(friendCode, howManySuggestions);
 	}
 
 	public ArrayList<NotCurrentUser> getFriendLeaderboard() {
