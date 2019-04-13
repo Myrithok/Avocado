@@ -121,24 +121,38 @@ public class Jdbc {
 		String SQL = "SELECT * FROM LOGIN_TB WHERE USERNAME = '"+username+"'";
 		PreparedStatement updated = con.prepareStatement(SQL);
 		ResultSet result = updated.executeQuery(SQL);
-		
+		 String USERNAME  = "";
+         float INCOMEDATA = 0;
+         float DEBTDATA =0;
+         float GRADDEBT = 0;
+         float DEBT = 0;
+         float INTEREST = 0;
+         String GRAD = "";
+         String BIRTH = "";
+         boolean OPTED= false;
+         String PROVINCE = "";
+         String EDUCATION = "";
+         String FIELD = "";
+         String SEX ="";
+         int FRIENDCODE = 0;
+         int RANK = 0;
 		while(result.next()){
 	         //Retrieve by column name
-	         String USERNAME  = result.getString("USERNAME");
-	         float INCOMEDATA = result.getFloat("INCOMEDATA");
-	         float DEBTDATA = result.getFloat("DEBTDATA");
-	         float GRADDEBT = result.getFloat("GRADDEBT");
-	         float DEBT = result.getFloat("DEBT");
-	         float INTEREST = result.getFloat("INTEREST");
-	         String GRAD = result.getString("GRAD");
-	         String BIRTH = result.getString("BIRTH");
-	         boolean OPTED= result.getBoolean("OPTED");
-	         String PROVINCE = result.getString("PROVINCE");
-	         String EDUCATION = result.getString("EDUCATION");
-	         String FIELD = result.getString("FIELD");
-	         String SEX = result.getString("SEX");
-	         int FRIENDCODE = result.getInt("FRIENDCODE");
-	         int RANK = result.getInt("USERRANK");
+	         USERNAME  = result.getString("USERNAME");
+	         INCOMEDATA = result.getFloat("INCOMEDATA");
+	         DEBTDATA = result.getFloat("DEBTDATA");
+	         GRADDEBT = result.getFloat("GRADDEBT");
+	         DEBT = result.getFloat("DEBT");
+	         INTEREST = result.getFloat("INTEREST");
+	         GRAD = result.getString("GRAD");
+	         BIRTH = result.getString("BIRTH");
+	         OPTED= result.getBoolean("OPTED");
+	         PROVINCE = result.getString("PROVINCE");
+	         EDUCATION = result.getString("EDUCATION");
+	         FIELD = result.getString("FIELD");
+	         SEX = result.getString("SEX");
+	         FRIENDCODE = result.getInt("FRIENDCODE");
+	         RANK = result.getInt("USERRANK");
 		}
 		return (new User(USERNAME, INCOMEDATA, DEBTDATA, GRADDEBT, DEBT, INTEREST, GRAD, BIRTH, OPTED, PROVINCE, EDUCATION, FIELD, SEX, FRIENDCODE));
 		}
