@@ -47,12 +47,14 @@ public class JdbcFake {
 		return 100.0;
 	}
 	public static ArrayList<NotCurrentUser> getFriends(int code){
+		//Take friend code, return ArrayList<NotCurrentUser> of friends.
 		ArrayList<NotCurrentUser> out = new ArrayList<NotCurrentUser>();
 		NotCurrentUser temp = new NotCurrentUser("Faizan", 420);
 		out.add(temp);
 		return out;
 	}
 	public static ArrayList<String> getSuggested(int code, int howmany){
+		//Take friend code, return ArrayList<NotCurrentUser> of length howmany of friends of friends, prioritzing closer connections.
 		ArrayList<String> out = new ArrayList<String>();
 		String temp = "Aushim";
 		out.add(temp);
