@@ -25,7 +25,7 @@ public class Jdbc {
 		//addFriend(10,74);
 		//addFriend(10,61);
 		//addFriend(10,96);
-		//createUserTable();
+		createUserTable();
 		//createUser("Dakota", "Loveanime");
 		//createUser("BOB", "Loveanime");
 		//saveUser(new User("BOB", 1, 2, 3, 40000, 5, new Date(0), new Date(0), true, "Ontario", "Bachelor", "Education", "Male", 500));
@@ -290,8 +290,8 @@ public class Jdbc {
 					+ "GRADDEBT FLOAT(50),"
 					+ "DEBT FLOAT(50),"
 					+ "INTEREST FLOAT(50),"
-					+ "GRAD DATE,"
-					+ "BIRTH DATE,"
+					+ "GRAD VARCHAR(50),"
+					+ "BIRTH VARCHAR(50),"
 					+ "OPTED BOOLEAN,"
 					+ "PROVINCE VARCHAR(50),"
 					+ "EDUCATION VARCHAR(50),"
