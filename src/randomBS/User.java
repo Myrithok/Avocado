@@ -520,7 +520,7 @@ public class User {
 		double normC = 1.0;
 		double debtCorrection = this.debtAtGrad / this.medianDemographicDebt;
 		double score = debtCorrection * normC * (payment / this.medianDemographicIncome);
-		this.score = score;
+		this.score = Math.round(score);
 	}
 
 	private void generateFriendCode() {
