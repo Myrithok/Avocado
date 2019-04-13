@@ -1,6 +1,25 @@
 package randomBS;
 
-<<<<<<< HEAD
+import java.sql.Connection;
+import java.sql.DatabaseMetaData;
+import java.sql.Date;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Scanner;
+
+/**
+ * @author danielwu
+ * 
+ *         This class allows to create table, insert and output the entire table
+ *
+ */
+
+//https://www.youtube.com/watch?v=GU_zYgXXOzE
+
+
 public class Jdbc {
 	public static void main(String[] args) throws Exception {
 		//createUserTable();
