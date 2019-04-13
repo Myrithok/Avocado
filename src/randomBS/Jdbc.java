@@ -347,3 +347,14 @@ public class Jdbc {
 			String password = "miwi9226";
 			Class.forName(DB_DRIVER_CLASS);
 
+			Connection con = DriverManager.getConnection(url, user, password);
+			System.out.println("connected to Database");
+			// System.out.println("\n");
+			return con;
+		}
+		catch (SQLException e) {
+			System.out.println(e);
+		}
+		return null;
+	}
+}
