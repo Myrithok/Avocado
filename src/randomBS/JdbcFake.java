@@ -3,7 +3,7 @@ package randomBS;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class Jdbc {
+public class JdbcFake {
 	public static boolean userExists(String username) {
 		return true;
 	}
