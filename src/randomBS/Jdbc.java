@@ -22,26 +22,30 @@ import java.util.Scanner;
 
 public class Jdbc {
 	public static void main(String[] args) throws Exception {
-		//addFriend(10,74);
-		//addFriend(10,61);
-		//addFriend(10,96);
-		createUserTable();
+		//addFriend(23,47);
+		//addFriend(23,68);
+		//ArrayList<NotCurrentUser> friends = getFriends(23);
+		//addFriend(23,96);
+		//createUserTable();
 		//createUser("Dakota", "Loveanime");
 		//createUser("BOB", "Loveanime");
-		//saveUser(new User("BOB", 1, 2, 3, 40000, 5, new Date(0), new Date(0), true, "Ontario", "Bachelor", "Education", "Male", 500));
-		//saveUser(new User("Dakota", 5,4,3,200000,1, new Date(0), new Date(0), true, "Ontario", "Master", "Education", "Female", 200));
+		//saveUser(new User("BOB", 1, 2, 3, 40000, 5, "2018-02-06", "2016-02-06", true, "Ontario", "Bachelor", "Education", "Male", 500));
+		//saveUser(new User("Dakota", 5,4,3,200000,1, "2019-02-06", "1999-09-04", true, "Ontario", "Master", "Education", "Female", 200));
 		//createUser("TESTONE", "Loveanime");
-		//saveUser(new User("TESTONE", 1, 2, 3, 100000, 5, new Date(0), new Date(0), true, "Ontario", "Bachelor", "Education", "Male", 500));
+		//saveUser(new User("TESTONE", 1, 2, 3, 100000, 5,"2018-02-06", "2001-03-06", true, "Ontario", "Bachelor", "Education", "Male", 500));
 		//createUser("TESTTWO", "Loveanime");
-		//saveUser(new User("TESTTWO", 1, 2, 3, 20000, 5, new Date(0), new Date(0), true, "Ontario", "Bachelor", "Education", "Male", 500));
+		//saveUser(new User("TESTTWO", 1, 2, 3, 20000, 5, "2018-02-06", "2000-01-02", true, "Ontario", "Bachelor", "Education", "Male", 500));
 		//createUser("TESTTHREE", "Loveanime");
-		//saveUser(new User("TESTTHREE", 1, 2, 3, 3000, 5, new Date(0), new Date(0), true, "Ontario", "Bachelor", "Education", "Male", 500));
+		//saveUser(new User("TESTTHREE", 1, 2, 3, 3000, 5, "2018-02-06", "2016-07-09", true, "Ontario", "Bachelor", "Education", "Male", 500));
+		
 		//NotCurrentUser ncu = getLeaderboard(2);
 		//System.out.println("USERNAME: " + ncu.getUsername());
 		//System.out.println("SCORE: " + ncu.getScore());
+		
 		//createUser("Erfan", "alwaysfresh");
 		//saveUser(new User("Erfan", 10,3,4,6,0, new Date(0), new Date(0), false, "Ontario", "Phd", "Education", "Female", 1));
-		//loadUser("haha1");
+		//User newuser = loadUser("TESTTWO");
+		//System.out.println("USERNAME: " +newuser.getUsername() );
 		//userExsits("BOB");
 		//userExsits("Dakota");
 		
@@ -403,68 +407,116 @@ public class Jdbc {
 		return 0;
 	}
 	
-	//public static NotCurrentUser getFriend(int code) { //friendcode
-	//	return (new NotCurrentUser("User", 100));      //notCurrent user, friendcode
-	public static NotCurrentUser getFriend(int code) {
-		try {
-			Connection con = getConnection();
-			String getFriendQuery = "SELECT USERNAME, SCORE FROM LOGIN_TB WHERE FRIENDCODE = '" + code + "'";
-			PreparedStatement statement = con.prepareStatement(getFriendQuery);
-			ResultSet result = statement.executeQuery();
-			if(result.next()) {
-				//System.out.println(result.getInt("FRIENDCODE"));
-				//System.out.println(result.getString("USERNAME"));
-				return (new NotCurrentUser(result.getString("USERNAME"),result.getInt("SCORE")));
-			}
-			
-		}
-		catch(Exception e) {
-			e.printStackTrace();
-		}
-		return null;
-	}
-	
-	
-	public static String getDistant(int code) {  
-		try {
-			Connection con = getConnection();
-			String getFrdQuery = "SELECT USERNAME FROM LOGIN_TB WHERE FRIENDCODE = '" + code + "'";
-			PreparedStatement statement = con.prepareStatement(getFrdQuery);
-			ResultSet result = statement.executeQuery();
-			if(result.next()) {
-				return (result.getString("USERNAME"));	
-			}//user
-	}
-		catch(Exception e) {
-			e.printStackTrace();
-		}
-		return null;
-	}
-	
 	public static ArrayList<NotCurrentUser> getFriends(int code){
 		//Take friend code, return ArrayList<NotCurrentUser> of friends.
 		ArrayList<NotCurrentUser> out = new ArrayList<NotCurrentUser>();
-		NotCurrentUser temp = new NotCurrentUser("Faizan", 420);
+		//NotCurrentUser temp = new NotCurrentUser("Faizan", 420);
 		try {
 			Connection con = getConnection();
 			String queryGetFriends = "Select YOU from FRIEND WHERE ME = " + code;
 			PreparedStatement statement = con.prepareStatement(queryGetFriends);
 			ResultSet result = statement.executeQuery();
+		
 			while (result.next()) {
 				String queryGetNotCurrentUser = "Select USERNAME, SCORE from LOGIN_TB where FRIENDCODE = " + result.getInt("YOU");
 				statement = con.prepareStatement(queryGetNotCurrentUser);
 				ResultSet friends = statement.executeQuery();
-				out.add(new NotCurrentUser (friends.getString("USERNAME"), friends.getFloat("SCORE")));
+				
+				if (friends.next()) {
+					out.add(new NotCurrentUser (friends.getString("USERNAME"), friends.getFloat("SCORE")));
+					
+				}
+			
 			}
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
-		out.add(temp);
-		for (NotCurrentUser n  : out) {
-			System.out.println("USERNAME: " + n.getUsername());
-			System.out.println("SCORE: " + n.getScore());
+		//out.add(temp);
+		
+		return out;
+	}
+	private static ArrayList<Integer> getFriendsCodes(int code){
+		//Take friend code, return ArrayList<NotCurrentUser> of friends.
+		ArrayList<Integer> out = new ArrayList<Integer>();
+		//NotCurrentUser temp = new NotCurrentUser("Faizan", 420);
+		try {
+			Connection con = getConnection();
+			String queryGetFriends = "Select YOU from FRIEND WHERE ME = " + code;
+			PreparedStatement statement = con.prepareStatement(queryGetFriends);
+			ResultSet result = statement.executeQuery();
+		
+			while (result.next()) {
+				//String queryGetNotCurrentUser = "Select FRIENDCODE from LOGIN_TB where FRIENDCODE = " + result.getInt("YOU");
+				//statement = con.prepareStatement(queryGetNotCurrentUser);
+				//ResultSet friends = statement.executeQuery();
+				out.add(result.getInt("YOU"));
+				
+			
+			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		//out.add(temp);
+		
+		return out;
+	}
+	private static ArrayList<Integer> friendsOfFriends(ArrayList <Integer> inputCodes){
+		ArrayList<Integer> returnList = new ArrayList<Integer>();
+		
+		for (int i : inputCodes) {
+			ArrayList<Integer> temp = getFriendsCodes(i);
+			returnList.addAll(temp);
+		}
+		return returnList;
+	}
+	public static ArrayList<String> getSuggested(int code, int howmany){
+		//Take friend code, return ArrayList<NotCurrentUser> of length howmany of friends of friends, prioritzing closer connections.
+		ArrayList<String> out = new ArrayList<String>();
+		ArrayList<Integer> outCodes = new ArrayList<Integer>();
+		ArrayList<Integer> checked = new ArrayList<Integer>();
+		ArrayList<Integer> friends = getFriendsCodes(code);
+		ArrayList<Integer> temp = friends;
+		String queryOutCodes = "";
+		try {
+			Connection con = getConnection();
+			
+			checked.addAll(temp);
+			while(true) {
+				temp = friendsOfFriends(temp);
+				if (checked.containsAll(temp)) {
+					break;
+				}
+				checked.addAll(temp);
+				for (int i : temp) {
+					if (!friends.contains(i) && !outCodes.contains(i)) {
+						outCodes.add(i);
+					}
+					if (outCodes.size() >= howmany) {
+						break;
+					}
+				}
+			}
+			
+			for (int i : outCodes) {
+				queryOutCodes = "Select USERNAME from LOGIN_TB where FRIENDCODE = " + i;
+				PreparedStatement statementOutCodes = con.prepareStatement(queryOutCodes);
+				ResultSet resultOutCodes = statementOutCodes.executeQuery();
+				if(resultOutCodes.next()) {
+					out.add(resultOutCodes.getString("USERNAME"));
+				}
+			}
+			
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		for (String name : out) {
+			System.out.println(name);
 		}
 		return out;
 	}
@@ -499,9 +551,9 @@ public class Jdbc {
 				System.out.print(" ");
 				System.out.print(result.getFloat("INTEREST"));
 				System.out.print(" ");
-				System.out.print(result.getFloat("GRAD"));
+				System.out.print(result.getString("GRAD"));
 				System.out.print(" ");
-				System.out.print(result.getFloat("BIRTH"));
+				System.out.print(result.getString("BIRTH"));
 				System.out.print(" ");
 				System.out.print(result.getBoolean("OPTED"));
 				System.out.print(" ");
