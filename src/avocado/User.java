@@ -217,10 +217,6 @@ public class User {
 	 * 
 	 * @return Returns a Sex enum representing the user's sex
 	 */
-	public Sex getSex() {
-		return this.sex;
-	}
-
 	public String getSexS() {
 		return this.sex.toString();
 	}
@@ -231,10 +227,6 @@ public class User {
 	 * 
 	 * @return Location enum representing the user's location
 	 */
-	public Location getLocation() {
-		return this.geoLocation;
-	}
-
 	public String getLocationS() {
 		return this.geoLocation.toString();
 	}
@@ -244,10 +236,6 @@ public class User {
 	 * 
 	 * @return Field of Study enum representing the user's field of study
 	 */
-	public FieldOfStudy getFieldOfStudy() {
-		return this.fieldOfStudy;
-	}
-
 	public String getFieldOfStudyS() {
 		return this.fieldOfStudy.toString();
 	}
@@ -257,10 +245,6 @@ public class User {
 	 * 
 	 * @return Education Level enum representing the user's education level
 	 */
-	public EducationLevel getEduationLevel() {
-		return this.educationLevel;
-	}
-
 	public String getEduationLevelS() {
 		return this.educationLevel.toString();
 	}
