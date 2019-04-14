@@ -52,7 +52,6 @@ public class User {
 		this.sex = sex;
 		this.scoreCalc();
 		this.generateFriendCode();
-		this.findFriends();
 		this.getMedianData();
 	}
 
@@ -78,7 +77,6 @@ public class User {
 		this.sex = Sex.valueOf(sex);
 		this.scoreCalc();
 		this.friendCode = friendCode;
-		//this.findFriends();
 		this.rank = 1;
 	}
 
@@ -210,7 +208,7 @@ public class User {
 	 */
 	public void setCurrentDebt(double currentDebt) {
 		this.currentDebt = currentDebt;
-		this.hasChanged = true;
+		this.scoreCalc();
 	}
 
 	/**
@@ -529,8 +527,12 @@ public class User {
 		Random random = new Random();
 		while (!generated) {
 			code = random.nextInt();
-			if (!Jdbc.friendCodeExists(code)) {
-				generated = true;
+			try {
+				if (!Jdbc.friendCodeExists(code)) {
+					generated = true;
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
 			}
 			generated = true;
 		}
@@ -544,13 +546,15 @@ public class User {
 
 	private void findFriends() {
 		int howManySuggestions = 5;
-		this.friends = Jdbc.getFriends(friendCode);
-		this.suggestedFriends = Jdbc.getSuggested(friendCode, howManySuggestions);
+		this.friends = Jdbc.getFriends(this.friendCode);
+		this.suggestedFriends = Jdbc.getSuggested(this.friendCode, howManySuggestions);
 	}
 
 	public ArrayList<NotCurrentUser> getFriendLeaderboard() {
+		findFriends();
 		ArrayList<NotCurrentUser> output = this.friends;
-		output.add(new NotCurrentUser(this.username, this.score));
+		NotCurrentUser self = new NotCurrentUser(this.username, this.score);
+		output.add(self);
 		sortRank(output);
 		return output;
 	}

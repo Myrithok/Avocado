@@ -26,7 +26,7 @@ public class Jdbc {
 		//addFriend(47,68);
 		//addFriend(47,96);
 		//addFriend(68,78);
-		
+		/*
 		ArrayList<NotCurrentUser> testf = getFriends(23);
 		for (NotCurrentUser f : testf) {
 			System.out.println(f.getUsername());
@@ -35,7 +35,7 @@ public class Jdbc {
 		for (String s : tests) {
 			System.out.println(s);
 		}
-		
+		*/
 		//ArrayList<NotCurrentUser> friends = getFriends(23);
 		//addFriend(23,96);
 		//createUserTable();
@@ -67,7 +67,7 @@ public class Jdbc {
 		
 		//createFriendTable();
 		//InsertFriend(1,5);
-		//friendIDExists("Boba");
+		//friendCodeExists(123);
 		//friendIDExists("1");
 		
 		//validLogin("BOB","THEBUILDER123");
@@ -91,15 +91,15 @@ public class Jdbc {
 			if (rs.next()) {
 				uName = rs.getString("USERNAME");
 				uPass = rs.getString("PASSWORD");
-				System.out.println("userName: " + uName);
-				System.out.println("password: " + uPass);
+				//System.out.println("userName: " + uName);
+				//System.out.println("password: " + uPass);
 				if (uPass.equals(password)) {
-					System.out.println("Valid User!");
+					//System.out.println("Valid User!");
 					return true;
 				}	
 			}
 			else {
-				System.out.println("Not valid");
+				//System.out.println("Not valid");
 				return false;
 			}
 		}
@@ -116,14 +116,14 @@ public class Jdbc {
 			PreparedStatement statement = con.prepareStatement(ExistSQL);
 			ResultSet result = statement.executeQuery();
 
-			if (result.next()) {
-				System.out.println("User exist");
+			while (result.next()) {
+				//System.out.println("User exist");
 				return true;
 			}
 
-			else {
-				System.out.println("User does not exist");
-			}
+			/*else {
+				//System.out.println("User does not exist");
+			}*/
 
 		} catch (Exception e) {
 			System.out.println(e);
@@ -182,7 +182,7 @@ public class Jdbc {
    	// update password by select user
 	public static void saveUser(User U) throws Exception{
 	  try { 
-		  System.out.println(U.getLocationS());
+		  //System.out.println(U.getLocationS());
 		  Connection con = getConnection(); 
 		  String UpdateSQL = ("UPDATE LOGIN_TB "
 				 
@@ -202,13 +202,12 @@ public class Jdbc {
 				  + " USERRANK = "+U.getRank()+","
 				  + " SCORE = "+U.getScore()
 				  + " WHERE USERNAME like '"+U.getUsername()+"'" );
-		  System.out.println(UpdateSQL);
+		  //System.out.println(UpdateSQL);
 	  PreparedStatement updated = con.prepareStatement(UpdateSQL);
 	  updated.executeUpdate();
 	  setRanks();
 
-	  } catch(Exception e){ System.out.println(e); } finally {
-	  System.out.println("successfully updated"); } }
+	  } catch(Exception e){ System.out.println(e); } }
 
 	public static void createUser(String username, String password) throws Exception {
 		try {
@@ -229,12 +228,9 @@ public class Jdbc {
 			System.out.println(e);
 		}
 
-		finally {
-			System.out.println("Insert Completed");
-		}
 	}	
 	
-	public static void addFriend(int ME, int YOU) throws Exception {
+	public static void addFriend(int YOU, int ME) throws Exception {
 		try {
 			Connection con = getConnection();
 			String InsertFriendSQL = ("INSERT INTO FRIEND"
@@ -250,22 +246,45 @@ public class Jdbc {
 		}
 	}
 	
-	public static boolean friendIDExists(String friendID) throws Exception {
+	public static boolean friendCodeExists(int friendID) throws Exception {
 		try {
 			Connection con = getConnection();
-			String ExistFriendSQL = "SELECT * FROM FRIEND WHERE FRIENDID ='" + friendID + "'";
+			String ExistFriendSQL = "SELECT * FROM LOGIN_TB WHERE FRIENDCODE ='" + friendID + "'";
 			PreparedStatement statement = con.prepareStatement(ExistFriendSQL);
 			ResultSet result = statement.executeQuery();
 
 			if (result.next()) {
-				System.out.println("Friend exist");
+				//System.out.println("Friend exist");
 				return true;
 
 			}
 
-			else {
+			/*else {
 				System.out.println("User does not exist");
+			}*/
+
+		} catch (Exception e) {
+			System.out.println(e);
+		}
+		return false;
+	}
+	
+	public static boolean userExists(String username) throws Exception {
+		try {
+			Connection con = getConnection();
+			String ExistFriendSQL = "SELECT * FROM LOGIN_TB WHERE USERNAME ='" + username + "'";
+			PreparedStatement statement = con.prepareStatement(ExistFriendSQL);
+			ResultSet result = statement.executeQuery();
+
+			if (result.next()) {
+				//System.out.println("Friend exist");
+				return true;
+
 			}
+
+			/*else {
+				System.out.println("User does not exist");
+			}*/
 
 		} catch (Exception e) {
 			System.out.println(e);
@@ -304,9 +323,9 @@ public class Jdbc {
 			System.out.println(e);
 		}
 
-		finally {
+		/*finally {
 			System.out.println("Delete Completed");
-		}
+		}*/
 	}
 	
 	public static void createUserTable() throws Exception {
@@ -388,7 +407,7 @@ public class Jdbc {
 		ResultSet result = statement.executeQuery();
 		
 		if(result.next()) {
-			System.out.println(result.getFloat("DE_VALUE"));
+			//System.out.println(result.getFloat("DE_VALUE"));
 			return result.getFloat("DE_VALUE");
 		}
 		}
@@ -407,7 +426,7 @@ public class Jdbc {
 		ResultSet result = statement.executeQuery();
 		
 		if(result.next()) {
-			System.out.println(result.getFloat("IN_VALUE"));
+			//System.out.println(result.getFloat("IN_VALUE"));
 			return result.getInt("IN_VALUE");
 			}
 		}
@@ -435,7 +454,10 @@ public class Jdbc {
 				ResultSet friends = statement.executeQuery();
 				
 				if (friends.next()) {
-					out.add(new NotCurrentUser (friends.getString("USERNAME"), friends.getFloat("SCORE")));
+					NotCurrentUser temp = new NotCurrentUser(friends.getString("USERNAME"), friends.getFloat("SCORE"));
+					if (!out.contains(temp)) {
+						out.add(temp);
+					}
 				}
 			}
 		} catch (Exception e) {

@@ -44,7 +44,7 @@ public class Session {
 	
 	public void login() {
 		Scanner sc = new Scanner(System.in);
-		boolean validLogin;
+		boolean validLogin = false;
 		String username;
 		
 		do {
@@ -56,23 +56,32 @@ public class Session {
 			
 			String password = sc.nextLine();
 			
-			if(Jdbc.userExists(username)) {
-				if(Jdbc.validLogin(username, password)) {
-					validLogin = true;
+			
+			try {
+				if(Jdbc.userExists(username)) {
+					if(Jdbc.validLogin(username, password)) {
+						validLogin = true;
+					}
+					else {
+						System.out.println("Incorrect Username or Password Please Try Again.\n");
+						validLogin = false;
+					}
 				}
 				else {
-					System.out.println("Incorrect Username or Password Please Try Again.\n");
+					System.out.println("Invalid Username or Password Provided Please Try Again.\n");
 					validLogin = false;
 				}
-			}
-			else {
-				System.out.println("Invalid Username or Password Provided Please Try Again.\n");
-				validLogin = false;
+			} catch (Exception e) {
+				e.printStackTrace();
 			}
 			
 		}while(!validLogin);
 		
-		this.user = Jdbc.loadUser(username);
+		try {
+			this.user = Jdbc.loadUser(username);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		homepage(sc);
 	}
 	
@@ -84,18 +93,22 @@ public class Session {
 		System.out.println("Welcome to the Avocado account setup wizzard");
 		
 		String username;
-		boolean validUsernameChosen;
+		boolean validUsernameChosen = false;
 		do {
 			System.out.print("Choose a username: ");
 			
 			username = sc.nextLine();
 			
-			if(Jdbc.userExists(username)) {
-				System.out.println("Invalid username Please Try again.\n");
-				validUsernameChosen = false;
-			}
-			else {
-				validUsernameChosen = true;
+			try {
+				if(Jdbc.userExists(username)) {
+					System.out.println("Invalid username Please Try again.\n");
+					validUsernameChosen = false;
+				}
+				else {
+					validUsernameChosen = true;
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
 			}
 			
 		}while(!validUsernameChosen);
@@ -235,8 +248,12 @@ public class Session {
 		
 		this.user = user;
 		
-		Jdbc.createUser(username,password);
-		Jdbc.saveUser(user);
+		try {
+			Jdbc.createUser(username,password);
+			Jdbc.saveUser(user);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		
 		homepage(sc);
 	}
@@ -328,7 +345,11 @@ public class Session {
 	public void addFriend(Scanner sc) {
 		System.out.print("Please add the friend code of the user you wish to share information with: ");
 		int friendID = sc.nextInt();
-		Jdbc.addFriend(this.user, friendID);
+		try {
+			Jdbc.addFriend(this.user.getFriendCode(), friendID);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 	
 	public void leaderboard(Scanner sc) {
@@ -393,7 +414,11 @@ public class Session {
 				break;
 			case 2:
 				debtupdate();
+			try {
 				Jdbc.saveUser(user);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 				update(sc);
 				break;
 			case 3:
@@ -401,7 +426,11 @@ public class Session {
 					this.user.optOut();
 				else
 					this.user.optIn();
+			try {
 				Jdbc.saveUser(this.user);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 				update(sc);
 				break;
 		}
