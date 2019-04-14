@@ -20,9 +20,6 @@ import java.util.Scanner;
 public class Jdbc {
 	public static void main(String[] args) throws Exception {
 
-		
-		
-	//createDebtTable();
 	}
 
 	public static boolean validLogin(String username, String password) {
@@ -122,7 +119,7 @@ public class Jdbc {
 					+ "SET INCOMEDATA = " + U.getMedianDemographicIncome() + "," + " DEBTDATA = "
 					+ U.getMedianDemographicDebt() + "," + " GRADDEBT = " + U.getDebtAtGrad() + "," + " DEBT = "
 					+ U.getCurrentDebt() + "," + " INTEREST = " + U.getInterestRate() + "," + " GRAD = '"
-					+ U.getGradDateS() + "'," + " BIRTH = '" + U.getDateOfBirth() + "'," + " OPTED = " + U.optedIn()
+					+ U.getGradDateS() + "'," + " BIRTH = '" + U.getDateOfBirthS() + "'," + " OPTED = " + U.optedIn()
 					+ "," + " PROVINCE = '" + U.getLocationS() + "'," + " EDUCATION = '" + U.getEduationLevelS() + "',"
 					+ " FIELD = '" + U.getFieldOfStudy() + "'," + " SEX = '" + U.getSexS() + "'," + " FRIENDCODE = "
 					+ U.getFriendCode() + "," + " USERRANK = " + U.getRank() + "," + " SCORE = " + U.getScore()
@@ -203,8 +200,15 @@ public class Jdbc {
 		}
 		return false;
 	}
+	
+	public static void createTables() throws Exception {
+		createDebtTable();
+		createIncomeTable();
+		createUserTable();
+		createFriendTable();
+	}
 
-	public static void createFriendTable() throws Exception {
+	private static void createFriendTable() throws Exception {
 		try {
 			Connection con = getConnection();
 			String sql = ("CREATE TABLE IF NOT EXISTS FRIEND" + "(FRIENDID INT NOT NULL AUTO_INCREMENT,"
@@ -217,7 +221,7 @@ public class Jdbc {
 		}
 	}
 
-	public static void createUserTable() throws Exception {
+	private static void createUserTable() throws Exception {
 		try {
 			Connection con = getConnection(); // getting connected to the database
 			String sql = ("CREATE TABLE IF NOT EXISTS LOGIN_TB " + "(USERNAME VARCHAR(50), " + "PASSWORD VARCHAR(50), "
@@ -234,7 +238,7 @@ public class Jdbc {
 		}
 	}
 
-	public static void createDebtTable() throws Exception {
+	private static void createDebtTable() throws Exception {
 		try {
 			Connection con = getConnection();
 			String CreateDebtTableSQL = ("CREATE TABLE IF NOT EXISTS debt_min" + "(DE_COORDINATE VARCHAR(50), "
@@ -247,7 +251,7 @@ public class Jdbc {
 		}
 	}
 	
-	public static void createIncomeTable() throws Exception {
+	private static void createIncomeTable() throws Exception {
 		try {
 			Connection con = getConnection();
 			String CreateDebtTableSQL = ("CREATE TABLE IF NOT EXISTS income_min" + "(IN_COORDINATE VARCHAR(50), "

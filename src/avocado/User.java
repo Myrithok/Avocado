@@ -29,13 +29,10 @@ public class User {
 
 	private boolean optedIn;
 
-	// replace the types of these with enums
 	private Location geoLocation;
 	private EducationLevel educationLevel;
 	private FieldOfStudy fieldOfStudy;
 	private Sex sex;
-
-	private boolean hasChanged;
 
 	public User(String username, double gradDebt, double debt, double interest, Date grad, Date birth,
 			Location province, EducationLevel education, FieldOfStudy field, Sex sex) {
@@ -92,34 +89,12 @@ public class User {
 	}
 
 	/**
-	 * Setter for median demographic income
-	 * 
-	 * @param income
-	 *            Double representing correct median demographic income
-	 */
-	public void setMedianDemographicIncome(double income) {
-		this.medianDemographicIncome = income;
-		this.hasChanged = true;
-	}
-
-	/**
 	 * Getter for median demographic debt at graduation
 	 * 
 	 * @return Double representing median demographic debt at graduation
 	 */
 	public double getMedianDemographicDebt() {
 		return this.medianDemographicDebt;
-	}
-
-	/**
-	 * Setter for median demographic debt at graduation
-	 * 
-	 * @param debt
-	 *            Double representing correct median demographic debt at graduation
-	 */
-	public void setMedianDemographicDebt(double debt) {
-		this.medianDemographicDebt = debt;
-		this.hasChanged = true;
 	}
 
 	/**
@@ -141,16 +116,6 @@ public class User {
 	}
 
 	/**
-	 * Setter for the username of the current user
-	 * 
-	 * @param username
-	 */
-	public void setUsername(String username) {
-		this.username = username;
-		this.hasChanged = true;
-	}
-
-	/**
 	 * Getter for the rank of the current user
 	 * 
 	 * @return Integer representing the rank of the current user among other users
@@ -160,35 +125,12 @@ public class User {
 	}
 
 	/**
-	 * Setter for the rank of the current user
-	 * 
-	 * @param rank
-	 *            Integer representing the correct rank to set the user to
-	 */
-	public void setRank(int rank) {
-		this.rank = rank;
-		this.hasChanged = true;
-	}
-
-	/**
 	 * Getter for user's debt at graduation
 	 * 
 	 * @return Double representing the current user's debt at graduation
 	 */
 	public double getDebtAtGrad() {
 		return this.debtAtGrad;
-	}
-
-	/**
-	 * Setter for the current users debt at graduation
-	 * 
-	 * @param debtAtGrad
-	 *            Double representing the correct debt at graduation value for the
-	 *            user.
-	 */
-	public void setDebtAtGrad(double debtAtGrad) {
-		this.debtAtGrad = debtAtGrad;
-		this.hasChanged = true;
 	}
 
 	/**
@@ -221,38 +163,12 @@ public class User {
 	}
 
 	/**
-	 * Setter for interest rate
-	 * 
-	 * @param interestRate
-	 *            Double representing correct interest rate on user's debt
-	 */
-	public void setInterestRate(double interestRate) {
-		this.interestRate = interestRate;
-		this.hasChanged = true;
-	}
-
-	/**
 	 * Getter for graduation date
 	 * 
 	 * @return Date representing the user's date of graduation
 	 */
-	public Date getGradDate() {
-		return this.gradDate;
-	}
-
 	public String getGradDateS() {
 		return new SimpleDateFormat("yyyy-MM-dd").format(gradDate);
-	}
-
-	/**
-	 * Setter for the users graduation date
-	 * 
-	 * @param gradDate
-	 *            Date representing the user's correct graduation date.
-	 */
-	public void setGradDate(Date gradDate) {
-		this.gradDate = gradDate;
-		this.hasChanged = true;
 	}
 
 	/**
@@ -260,23 +176,8 @@ public class User {
 	 * 
 	 * @return Date representing the user's date of birth
 	 */
-	public Date getDateOfBirth() {
-		return this.dateOfBirth;
-	}
-
 	public String getDateOfBirthS() {
 		return new SimpleDateFormat("yyyy-MM-dd").format(dateOfBirth);
-	}
-
-	/**
-	 * Setter for user's date of birth
-	 * 
-	 * @param dateOfBirth
-	 *            Date representing user's correct date of birth
-	 */
-	public void setDateOfBirth(Date dateOfBirth) {
-		this.dateOfBirth = dateOfBirth;
-		this.hasChanged = true;
 	}
 
 	/**
@@ -286,17 +187,6 @@ public class User {
 	 */
 	public int getFriendCode() {
 		return this.friendCode;
-	}
-
-	/**
-	 * Setter for friend code
-	 * 
-	 * @param friendCode
-	 *            Long representing the user's friend code
-	 */
-	public void setFriendCode(int friendCode) {
-		this.friendCode = friendCode;
-		this.hasChanged = true;
 	}
 
 	/**
@@ -313,7 +203,6 @@ public class User {
 	 */
 	public void optIn() {
 		this.optedIn = true;
-		this.hasChanged = true;
 	}
 
 	/**
@@ -321,7 +210,6 @@ public class User {
 	 */
 	public void optOut() {
 		this.optedIn = false;
-		this.hasChanged = true;
 	}
 
 	/**
@@ -337,16 +225,6 @@ public class User {
 		return this.sex.toString();
 	}
 
-	/**
-	 * Setter for the uer's sex
-	 * 
-	 * @param sex
-	 *            Sex enum representing the user's correct sex
-	 */
-	public void setSex(Sex sex) {
-		this.sex = sex;
-		this.hasChanged = true;
-	}
 
 	/**
 	 * Getter for the user's location
@@ -359,17 +237,6 @@ public class User {
 
 	public String getLocationS() {
 		return this.geoLocation.toString();
-	}
-
-	/**
-	 * Setter for the user's location
-	 * 
-	 * @param location
-	 *            Location enum representing the user's location
-	 */
-	public void setLocation(Location location) {
-		this.geoLocation = location;
-		this.hasChanged = true;
 	}
 
 	/**
@@ -386,17 +253,6 @@ public class User {
 	}
 
 	/**
-	 * Setter for the user's field of study
-	 * 
-	 * @param fieldOfStudy
-	 *            Field of Study enum representing the user's field of study
-	 */
-	public void setFieldOfStudy(FieldOfStudy fieldOfStudy) {
-		this.fieldOfStudy = fieldOfStudy;
-		this.hasChanged = true;
-	}
-
-	/**
 	 * Getter for user's education level
 	 * 
 	 * @return Education Level enum representing the user's education level
@@ -407,26 +263,6 @@ public class User {
 
 	public String getEduationLevelS() {
 		return this.educationLevel.toString();
-	}
-
-	/**
-	 * Setter for user's education level
-	 * 
-	 * @param educationLevel
-	 *            Education Level enum representing the user's education level
-	 */
-	public void setEducationLevel(EducationLevel educationLevel) {
-		this.educationLevel = educationLevel;
-		this.hasChanged = true;
-	}
-
-	/**
-	 * Checks if the user's information has changed
-	 * 
-	 * @return True if the user's information has been changed.
-	 */
-	public boolean hasChanged() {
-		return this.hasChanged;
 	}
 
 	// main functions
@@ -569,13 +405,4 @@ public class User {
 		}
 	}
 
-	public static void main(String[] args) {
-		// Dakota test area
-
-		// Andrew test area
-
-		// Erfan test area
-
-		// Daniel test area
-	}
 }
