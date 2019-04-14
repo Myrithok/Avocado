@@ -1,4 +1,4 @@
-package randomBS;
+package avocado;
 
 public enum Sex {
 	Male,Female,PreferNotToSpecify;
@@ -16,9 +16,4 @@ public enum Sex {
 		}
 	}
 	
-	public static void main(String[] args) {
-		Sex test = valueOf("Male");
-		System.out.println(test.toString());
-		System.out.println(test.toval());
-	}
 }

@@ -1,4 +1,4 @@
-package randomBS;
+package avocado;
 
 import java.util.Scanner;
 import java.text.SimpleDateFormat;

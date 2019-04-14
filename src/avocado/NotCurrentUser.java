@@ -1,4 +1,4 @@
-package randomBS;
+package avocado;
 
 public class NotCurrentUser implements Comparable<NotCurrentUser> {
 	private String username;
@@ -25,15 +25,5 @@ public class NotCurrentUser implements Comparable<NotCurrentUser> {
 		} else {
 			return -1;
 		}
-	}
-
-	public static void main(String[] args) {
-		// Dakota test area
-
-		// Andrew test area
-
-		// Erfan test area
-
-		// Daniel test area
 	}
 }

@@ -1,4 +1,4 @@
-package randomBS;
+package avocado;
 
 public class MergeSort {
 	public static void sort(Comparable[] a) {
