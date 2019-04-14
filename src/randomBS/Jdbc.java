@@ -22,8 +22,20 @@ import java.util.Scanner;
 
 public class Jdbc {
 	public static void main(String[] args) throws Exception {
-		//addFriend(23,47);
-		//addFriend(23,68);
+		//addFriend(68,79);
+		//addFriend(47,68);
+		//addFriend(47,96);
+		//addFriend(68,78);
+		
+		ArrayList<NotCurrentUser> testf = getFriends(23);
+		for (NotCurrentUser f : testf) {
+			System.out.println(f.getUsername());
+		}
+		ArrayList<String> tests = getSuggested(23,4);
+		for (String s : tests) {
+			System.out.println(s);
+		}
+		
 		//ArrayList<NotCurrentUser> friends = getFriends(23);
 		//addFriend(23,96);
 		//createUserTable();
@@ -424,19 +436,14 @@ public class Jdbc {
 				
 				if (friends.next()) {
 					out.add(new NotCurrentUser (friends.getString("USERNAME"), friends.getFloat("SCORE")));
-					
 				}
-			
 			}
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		//out.add(temp);
-		
 		return out;
 	}
+	
 	private static ArrayList<Integer> getFriendsCodes(int code){
 		//Take friend code, return ArrayList<NotCurrentUser> of friends.
 		ArrayList<Integer> out = new ArrayList<Integer>();
@@ -459,11 +466,9 @@ public class Jdbc {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		//out.add(temp);
-		
 		return out;
 	}
+	
 	private static ArrayList<Integer> friendsOfFriends(ArrayList <Integer> inputCodes){
 		ArrayList<Integer> returnList = new ArrayList<Integer>();
 		
@@ -473,6 +478,7 @@ public class Jdbc {
 		}
 		return returnList;
 	}
+	
 	public static ArrayList<String> getSuggested(int code, int howmany){
 		//Take friend code, return ArrayList<NotCurrentUser> of length howmany of friends of friends, prioritzing closer connections.
 		ArrayList<String> out = new ArrayList<String>();
@@ -499,13 +505,16 @@ public class Jdbc {
 						break;
 					}
 				}
+				if (outCodes.size() >= howmany) {
+					break;
+				}
 			}
 			
 			for (int i : outCodes) {
 				queryOutCodes = "Select USERNAME from LOGIN_TB where FRIENDCODE = " + i;
 				PreparedStatement statementOutCodes = con.prepareStatement(queryOutCodes);
 				ResultSet resultOutCodes = statementOutCodes.executeQuery();
-				if(resultOutCodes.next()) {
+				while(resultOutCodes.next()) {
 					out.add(resultOutCodes.getString("USERNAME"));
 				}
 			}
@@ -514,9 +523,6 @@ public class Jdbc {
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
-		for (String name : out) {
-			System.out.println(name);
 		}
 		return out;
 	}
@@ -531,7 +537,7 @@ public class Jdbc {
 			Connection con = getConnection();
 
 			// SQL statement required to Select all data from database
-			String SelectSQL = ("SELECT * FROM LOGIN_TB "); // Stop after SQL finds one of each copy
+			String SelectSQL = ("SELECT * FROM LOGIN_TB ");
 			PreparedStatement statement = con.prepareStatement(SelectSQL);
 			ResultSet result = statement.executeQuery();
 		
@@ -590,7 +596,6 @@ public class Jdbc {
 
 			Connection con = DriverManager.getConnection(url, user, password);
 			System.out.println("connected to Database");
-			// System.out.println("\n");
 			return con;
 		}
 		catch (SQLException e) {
