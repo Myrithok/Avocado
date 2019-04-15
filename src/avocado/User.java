@@ -335,7 +335,7 @@ public class User {
 		double numerator = this.interestRate * (this.debtAtGrad * i - this.currentDebt);
 		double denominator = i - 1.0;
 		double payment = numerator / denominator;
-		double normC = 1.0;
+		double normC = 100.0;
 		double debtCorrection = this.debtAtGrad / this.medianDemographicDebt;
 		double score = debtCorrection * normC * (payment / this.medianDemographicIncome);
 		this.score = Math.round(score);
