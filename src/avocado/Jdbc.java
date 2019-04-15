@@ -102,7 +102,7 @@ public class Jdbc {
 				RANK = result.getInt("USERRANK");
 			}
 			return (new User(USERNAME, INCOMEDATA, DEBTDATA, GRADDEBT, DEBT, INTEREST, GRAD, BIRTH, OPTED, PROVINCE,
-					EDUCATION, FIELD, SEX, FRIENDCODE));
+					EDUCATION, FIELD, SEX, FRIENDCODE, RANK));
 		}
 
 		catch (Exception e) {
@@ -121,13 +121,12 @@ public class Jdbc {
 					+ U.getCurrentDebt() + "," + " INTEREST = " + U.getInterestRate() + "," + " GRAD = '"
 					+ U.getGradDateS() + "'," + " BIRTH = '" + U.getDateOfBirthS() + "'," + " OPTED = " + U.optedIn()
 					+ "," + " PROVINCE = '" + U.getLocationS() + "'," + " EDUCATION = '" + U.getEduationLevelS() + "',"
-					+ " FIELD = '" + U.getFieldOfStudy() + "'," + " SEX = '" + U.getSexS() + "'," + " FRIENDCODE = "
+					+ " FIELD = '" + U.getFieldOfStudyS() + "'," + " SEX = '" + U.getSexS() + "'," + " FRIENDCODE = "
 					+ U.getFriendCode() + "," + " USERRANK = " + U.getRank() + "," + " SCORE = " + U.getScore()
 					+ " WHERE USERNAME like '" + U.getUsername() + "'");
 			PreparedStatement updated = con.prepareStatement(UpdateSQL);
 			updated.executeUpdate();
 			setRanks();
-
 		} catch (Exception e) {
 			System.out.println(e);
 		}
@@ -186,8 +185,8 @@ public class Jdbc {
 	public static boolean userExists(String username) throws Exception {
 		try {
 			Connection con = getConnection();
-			String ExistFriendSQL = "SELECT * FROM LOGIN_TB WHERE USERNAME ='" + username + "'";
-			PreparedStatement statement = con.prepareStatement(ExistFriendSQL);
+			String ExistUserSQL = "SELECT * FROM LOGIN_TB WHERE USERNAME ='" + username + "'";
+			PreparedStatement statement = con.prepareStatement(ExistUserSQL);
 			ResultSet result = statement.executeQuery();
 
 			if (result.next()) {
@@ -233,8 +232,6 @@ public class Jdbc {
 			create.executeUpdate();
 		} catch (Exception e) {
 			System.out.println(e);
-		} finally {
-			System.out.println("Table created");
 		}
 	}
 
@@ -302,6 +299,7 @@ public class Jdbc {
 
 	public static double getDebtData(String coord) {
 		try {
+			System.out.println(coord);
 			Connection con = getConnection();
 			String DebtSelect = "SELECT DE_VALUE FROM debt_min WHERE DE_COORDINATE = '" + coord + "'";
 			PreparedStatement statement = con.prepareStatement(DebtSelect);
@@ -320,6 +318,7 @@ public class Jdbc {
 
 	public static double getIncomeData(String coord) {
 		try {
+			System.out.println(coord);
 			Connection con = getConnection();
 			String IncomeSelect = "SELECT IN_VALUE FROM income_min WHERE IN_COORDINATE = '" + coord + "'";
 			PreparedStatement statement = con.prepareStatement(IncomeSelect);
@@ -440,13 +439,12 @@ public class Jdbc {
 		try {
 			String DB_DRIVER_CLASS = "com.mysql.jdbc.Driver";
 
-			String url = "jdbc:mysql://localhost:3306/UP";
+			String url = "jdbc:mysql://localhost:3306/UP?useSSL=false";
 			String user = "root";
 			String password = "miwi9226";
 			Class.forName(DB_DRIVER_CLASS);
 
 			Connection con = DriverManager.getConnection(url, user, password);
-			System.out.println("connected to Database");
 			return con;
 		} catch (SQLException e) {
 			System.out.println(e);

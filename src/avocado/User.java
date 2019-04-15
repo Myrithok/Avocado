@@ -47,14 +47,14 @@ public class User {
 		this.educationLevel = education;
 		this.fieldOfStudy = field;
 		this.sex = sex;
-		this.scoreCalc();
 		this.generateFriendCode();
 		this.getMedianData();
+		this.scoreCalc();
 	}
 
 	public User(String username, double incomeData, double debtData, double gradDebt, double debt, double interest,
 			String grad, String birth, boolean opted, String province, String education, String field, String sex,
-			int friendCode) {
+			int friendCode, int rank) {
 		this.username = username;
 		this.medianDemographicIncome = incomeData;
 		this.medianDemographicDebt = debtData;
@@ -65,16 +65,16 @@ public class User {
 			this.gradDate = new SimpleDateFormat("yyyy-MM-dd").parse(grad);
 			this.dateOfBirth = new SimpleDateFormat("yyyy-MM-dd").parse(birth);
 		} catch (ParseException e) {
-			//Oh No
+			System.out.println(e);
 		}
 		this.optedIn = opted;
 		this.geoLocation = Location.valueOf(province);
 		this.educationLevel = EducationLevel.valueOf(education);
 		this.fieldOfStudy = FieldOfStudy.valueOf(field);
 		this.sex = Sex.valueOf(sex);
-		this.scoreCalc();
 		this.friendCode = friendCode;
-		this.rank = 1;
+		this.rank = rank;
+		this.scoreCalc();
 	}
 
 	// getters and setters
