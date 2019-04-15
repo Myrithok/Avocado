@@ -13,7 +13,7 @@ public class Session {
 		start(sc);
 	}
 
-	public void start(Scanner sc) {
+	private void start(Scanner sc) {
 		boolean validChoice;
 		System.out.println("Welcome To Avocado\n");
 		int i;
@@ -41,7 +41,7 @@ public class Session {
 
 	}
 
-	public void login() {
+	private void login() {
 		Scanner sc = new Scanner(System.in);
 		boolean validLogin = false;
 		String username;
@@ -82,7 +82,7 @@ public class Session {
 	}
 
 	// finish after constructor for user
-	public void signup() {
+	private void signup() {
 		Scanner sc = new Scanner(System.in);
 
 		// username
@@ -244,7 +244,7 @@ public class Session {
 		homepage(sc);
 	}
 
-	public void homepage(Scanner sc) {
+	private void homepage(Scanner sc) {
 		boolean validChoice = false;
 		int i;
 
@@ -283,7 +283,7 @@ public class Session {
 		}
 	}
 
-	public void friends(Scanner sc) {
+	private void friends(Scanner sc) {
 		System.out.println("Welcome to your friends page " + this.user.getUsername() + ".\n");
 		System.out.println("Your friend ID is: " + this.user.getFriendCode() + "\n");
 
@@ -331,7 +331,7 @@ public class Session {
 		}
 	}
 
-	public void addFriend(Scanner sc) {
+	private void addFriend(Scanner sc) {
 		System.out.print("Please add the friend code of the user you wish to share information with: ");
 		int friendID = sc.nextInt();
 		try {
@@ -345,7 +345,7 @@ public class Session {
 		}
 	}
 
-	public void leaderboard(Scanner sc) {
+	private void leaderboard(Scanner sc) {
 		int rank = this.user.getRank();
 
 		System.out.println("Welcome to your leaderboard page " + this.user.getUsername() + ".\n");
@@ -371,7 +371,7 @@ public class Session {
 		homepage(sc);
 	}
 
-	public void update(Scanner sc) {
+	private void update(Scanner sc) {
 
 		System.out.println("Welcome to your information update page " + this.user.getUsername() + ".\n");
 
@@ -429,7 +429,7 @@ public class Session {
 		}
 	}
 
-	public void debtupdate() {
+	private void debtupdate() {
 		boolean valid;
 		double newDebt = 0.0;
 		do {
@@ -446,7 +446,4 @@ public class Session {
 		this.user.setCurrentDebt(newDebt);
 	}
 
-	public static void main(String[] args) {
-		Session sess = new Session();
-	}
 }
