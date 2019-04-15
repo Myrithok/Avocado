@@ -5,7 +5,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.Random;
 
@@ -335,7 +334,7 @@ public class User {
 		double numerator = this.interestRate * (this.debtAtGrad * i - this.currentDebt);
 		double denominator = i - 1.0;
 		double payment = numerator / denominator;
-		double normC = 100.0;
+		double normC = 1000.0;
 		double debtCorrection = this.debtAtGrad / this.medianDemographicDebt;
 		double score = debtCorrection * normC * (payment / this.medianDemographicIncome);
 		this.score = Math.round(score);
