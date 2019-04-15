@@ -1,5 +1,7 @@
 package avocado;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.Date;
@@ -261,7 +263,7 @@ public class Jdbc {
 	public static NotCurrentUser getLeaderboard(int r) {
 		try {
 			Connection con = getConnection();
-			String queryGetUser = "select USERNAME, SCORE from UP.LOGIN_TB where OPTED=1 and USERRANK = " + r;
+			String queryGetUser = "Select USERNAME, SCORE from LOGIN_TB where OPTED=1 and USERRANK=" + r;
 			PreparedStatement statement = con.prepareStatement(queryGetUser);
 			ResultSet result = statement.executeQuery();
 			if (result.next()) {
@@ -269,7 +271,7 @@ public class Jdbc {
 			}
 			return (new NotCurrentUser("NOT FOUND", 0));
 		} catch (Exception e) {
-
+			e.printStackTrace();
 		}
 		return (new NotCurrentUser("NOT FOUND", 0));
 	}
@@ -295,7 +297,6 @@ public class Jdbc {
 
 	public static double getDebtData(String coord) {
 		try {
-			System.out.println(coord);
 			Connection con = getConnection();
 			String DebtSelect = "SELECT DE_VALUE FROM debt_min WHERE DE_COORDINATE = '" + coord + "'";
 			PreparedStatement statement = con.prepareStatement(DebtSelect);
@@ -314,7 +315,6 @@ public class Jdbc {
 
 	public static double getIncomeData(String coord) {
 		try {
-			System.out.println(coord);
 			Connection con = getConnection();
 			String IncomeSelect = "SELECT IN_VALUE FROM income_min WHERE IN_COORDINATE = '" + coord + "'";
 			PreparedStatement statement = con.prepareStatement(IncomeSelect);
@@ -431,13 +431,30 @@ public class Jdbc {
 		return out;
 	}
 
+	private static ArrayList<String> getDatabseInfo() {
+		ArrayList<String> output = new ArrayList<String>();
+		String fileName = "Data/database.txt";
+		String line = null;
+		try {
+			FileReader fileReader = new FileReader(fileName);
+			BufferedReader bufferedReader = new BufferedReader(fileReader);
+			while ((line = bufferedReader.readLine()) != null) {
+				output.add(line);
+			}
+			bufferedReader.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return output;
+	}
+	
 	private static Connection getConnection() throws Exception {
 		try {
-			String DB_DRIVER_CLASS = "com.mysql.jdbc.Driver";
-
-			String url = "jdbc:mysql://localhost:3306/UP?useSSL=false";
-			String user = "root";
-			String password = "miwi9226";
+			ArrayList<String> databaseInfo = getDatabseInfo();
+			String DB_DRIVER_CLASS = databaseInfo.get(0);
+			String url = databaseInfo.get(1);
+			String user = databaseInfo.get(2);
+			String password = databaseInfo.get(3);
 			Class.forName(DB_DRIVER_CLASS);
 
 			Connection con = DriverManager.getConnection(url, user, password);

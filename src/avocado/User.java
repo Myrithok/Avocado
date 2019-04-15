@@ -345,7 +345,7 @@ public class User {
 		while (!generated) {
 			code = random.nextInt();
 			try {
-				if (!Jdbc.friendCodeExists(code)) {
+				if (!Jdbc.friendCodeExists(code) && code > 0) {
 					generated = true;
 				}
 			} catch (Exception e) {

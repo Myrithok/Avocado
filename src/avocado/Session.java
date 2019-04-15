@@ -151,6 +151,7 @@ public class Session {
 			}
 		} while (!validInterest);
 
+		sc.nextLine();
 		Date grad = new Date();
 		boolean validGradDate = false;
 		do {
@@ -247,6 +248,7 @@ public class Session {
 		boolean validChoice = false;
 		int i;
 
+		this.user.scoreCalc();
 		System.out.println("Welcome back " + this.user.getUsername() + ".\n");
 		System.out.println("Your Score is: " + this.user.getScore());
 
@@ -300,6 +302,7 @@ public class Session {
 		for (String i : suggestedFriends) {
 			System.out.println(i);
 		}
+		System.out.println();
 
 		boolean valid;
 		int choice;
@@ -332,6 +335,10 @@ public class Session {
 		System.out.print("Please add the friend code of the user you wish to share information with: ");
 		int friendID = sc.nextInt();
 		try {
+			if (this.user.getFriendCode() == friendID) {
+				System.out.println("You can't add yourself!");
+				return;
+			}
 			Jdbc.addFriend(this.user.getFriendCode(), friendID);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -347,20 +354,19 @@ public class Session {
 		System.out.println("Leaderboard Top 5\n");
 
 		for (int i = 1; i < 6; i++) {
-			NotCurrentUser user = Jdbc.getLeaderboard(i);
-			if (!user.getUsername().equals(""))
-				System.out.println(i + ": " + user.getUsername() + " " + user.getScore());
+			NotCurrentUser userl = Jdbc.getLeaderboard(i);
+			if (!userl.getUsername().equals("NOT FOUND"))
+				System.out.println(i + ": " + userl.getUsername() + " " + userl.getScore());
 		}
 
 		System.out.println("\nLocal Leaderboard\n");
 
 		for (int i = (rank - 2); i <= (rank + 2); i++) {
-			NotCurrentUser user = Jdbc.getLeaderboard(i);
-			if (!user.getUsername().equals("NOT FOUND"))
-				System.out.println(i + ": " + user.getUsername() + " " + user.getScore());
+			NotCurrentUser userl = Jdbc.getLeaderboard(i);
+			if (!userl.getUsername().equals("NOT FOUND"))
+				System.out.println(i + ": " + userl.getUsername() + " " + userl.getScore());
 		}
 
-		System.out.print("Press Enter to go back.");
 		sc.nextLine();
 		homepage(sc);
 	}
@@ -401,6 +407,7 @@ public class Session {
 			debtupdate();
 			try {
 				Jdbc.saveUser(user);
+				this.user = Jdbc.loadUser(this.user.getUsername());
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -413,6 +420,7 @@ public class Session {
 				this.user.optIn();
 			try {
 				Jdbc.saveUser(this.user);
+				this.user = Jdbc.loadUser(this.user.getUsername());
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
