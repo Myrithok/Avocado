@@ -144,8 +144,7 @@ public class User {
 	/**
 	 * Setter for user's current debt
 	 * 
-	 * @param currentDebt
-	 *            Double representing the correct current debt for the user.
+	 * @param currentDebt Double representing the correct current debt for the user.
 	 */
 	public void setCurrentDebt(double currentDebt) {
 		this.currentDebt = currentDebt;
@@ -219,7 +218,6 @@ public class User {
 	public String getSexS() {
 		return this.sex.toString();
 	}
-
 
 	/**
 	 * Getter for the user's location

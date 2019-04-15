@@ -19,7 +19,7 @@ import java.util.Scanner;
 
 public class Jdbc {
 	public static void main(String[] args) throws Exception {
-
+		createTables();
 	}
 
 	public static boolean validLogin(String username, String password) {
@@ -149,7 +149,6 @@ public class Jdbc {
 		}
 
 	}
-	
 
 	public static void addFriend(int YOU, int ME) throws Exception {
 		try {
@@ -199,7 +198,7 @@ public class Jdbc {
 		}
 		return false;
 	}
-	
+
 	public static void createTables() throws Exception {
 		createDebtTable();
 		createIncomeTable();
@@ -242,12 +241,11 @@ public class Jdbc {
 					+ "DE_VALUE INT(11), PRIMARY KEY(DE_COORDINATE))");
 			PreparedStatement create = con.prepareStatement(CreateDebtTableSQL);
 			create.executeUpdate();
-		} 
-		catch (Exception e) {
+		} catch (Exception e) {
 			System.out.println(e);
 		}
 	}
-	
+
 	private static void createIncomeTable() throws Exception {
 		try {
 			Connection con = getConnection();
@@ -255,13 +253,11 @@ public class Jdbc {
 					+ "IN_VALUE INT(11), PRIMARY KEY(IN_COORDINATE))");
 			PreparedStatement create = con.prepareStatement(CreateDebtTableSQL);
 			create.executeUpdate();
-		} 
-		catch (Exception e) {
+		} catch (Exception e) {
 			System.out.println(e);
 		}
 	}
-	
-	
+
 	public static NotCurrentUser getLeaderboard(int r) {
 		try {
 			Connection con = getConnection();
