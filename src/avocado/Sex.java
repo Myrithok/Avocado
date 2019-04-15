@@ -1,4 +1,4 @@
-package randomBS;
+package avocado;
 
 public enum Sex {
 	Male,Female,PreferNotToSpecify;
@@ -15,4 +15,5 @@ public enum Sex {
 				return 0;
 		}
 	}
+	
 }

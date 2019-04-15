@@ -1,9 +1,9 @@
-package randomBS;
+package avocado;
 
 enum EducationLevel {
 	Bachelor,Master,Doctorate;
 	
-	public int toIncomeVal() {
+	public int toDebtVal() {
 		switch(this.name()) {
 			case "Bachelor":
 				return 2;
@@ -16,7 +16,7 @@ enum EducationLevel {
 		}
 	}
 	
-	public int toDebtVal() {
+	public int toIncomeVal() {
 		switch(this.name()) {
 			case "Bachelor":
 				return 12;

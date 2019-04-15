@@ -1,4 +1,4 @@
-package randomBS;
+package avocado;
 
 public enum FieldOfStudy {
 	TotalFieldOfStudy,
