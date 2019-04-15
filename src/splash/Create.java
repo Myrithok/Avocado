@@ -1,6 +1,9 @@
 
 package splash;
 
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.Toolkit;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -10,6 +13,8 @@ import java.io.IOException;
 import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import javax.swing.BoxLayout;
 import javax.swing.JOptionPane;
 
 /**
@@ -23,61 +28,112 @@ public class Create extends javax.swing.JFrame {
 	 */
 	public Create() {
 		initComponents();
-		setSize(806, 710);
+		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+		double width = screenSize.getWidth();
+		double height = screenSize.getHeight();
+		setSize(400, 800);
 	}
 
 	@SuppressWarnings("unchecked")
 
 	private void initComponents() {
-
-		jButton1 = new javax.swing.JButton();
-		jButton2 = new javax.swing.JButton();
-		jLabel2 = new javax.swing.JLabel();
-		jLabel1 = new javax.swing.JLabel();
-		jTextField2 = new javax.swing.JTextField();
-		jTextField1 = new javax.swing.JTextField();
-
+		jLabelUsername = new javax.swing.JLabel();
+		jLabelPassword = new javax.swing.JLabel();
+		jTextFieldPassword = new javax.swing.JTextField();
+		jTextFieldUsername = new javax.swing.JTextField();
+		
+		jLabelGradDebt = new javax.swing.JLabel();
+		jLabelDebt = new javax.swing.JLabel();
+		jLabelInterest = new javax.swing.JLabel();
+		jLabelGrad = new javax.swing.JLabel();
+		jLabelBirth = new javax.swing.JLabel();
+		jLabelProvince = new javax.swing.JLabel();
+		jLabelEducation = new javax.swing.JLabel();
+		jLabelField = new javax.swing.JLabel();
+		jLabelSex = new javax.swing.JLabel();
+		jTextFieldGradDebt = new javax.swing.JTextField();
+		jTextFieldDebt = new javax.swing.JTextField();
+		jTextFieldInterest = new javax.swing.JTextField();
+		jTextFieldGrad = new javax.swing.JTextField();
+		jTextFieldBirth = new javax.swing.JTextField();
+		jComboBoxEducation = new javax.swing.JComboBox();
+		jComboBoxProvince = new javax.swing.JComboBox();
+		jComboBoxField = new javax.swing.JComboBox();
+		jComboBoxSex = new javax.swing.JComboBox();
+		jButtonCreate = new javax.swing.JButton();
+		//jButtonCreate = new javax.swing.JButton();
+		jButtonBack = new javax.swing.JButton();
 		setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-		getContentPane().setLayout(null);
+		//getContentPane.setMaximumSize( panel.getPreferredSize() )
+		getContentPane().setLayout(new BoxLayout(getContentPane(), BoxLayout.PAGE_AXIS));
 
-		jButton1.setText("Create");
-		jButton1.addActionListener(new java.awt.event.ActionListener() {
+		jButtonCreate.setText("Create");
+		jButtonCreate.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
 				jButton1ActionPerformed(evt);
 			}
 		});
-		getContentPane().add(jButton1);
-		jButton1.setBounds(280, 420, 180, 80);
+		jLabelUsername.setFont(new java.awt.Font("Tahoma", 1, 14));
+		jLabelUsername.setText("User Name");
+		getContentPane().add(jLabelUsername,BorderLayout.CENTER);
+		//jLabelUsername.setBounds(101, 111, 160, 60);
+		getContentPane().add(jTextFieldUsername,BorderLayout.CENTER);
+		jLabelPassword.setFont(new java.awt.Font("Tahoma", 1, 14));
+		jLabelPassword.setText("Password");
+		jLabelGradDebt.setText("Debt At Graduation: ");
+		jLabelDebt.setText("Current Debt: ");
+		jLabelInterest.setText("Interest: ");
+		jLabelGrad.setText("Graduation Date (YYYY-MM-DD): ");
+		jLabelBirth.setText("Birthdate(YYYY-MM-DD): ");
+		jLabelProvince.setText("Province: ");
+		jLabelEducation.setText("Level of Education: ");
+		jLabelField.setText("Field of Study: ");
+		jLabelSex.setText("Sex: ");
+		getContentPane().add(jLabelPassword,BorderLayout.CENTER);
 
-		jButton2.setText("Back");
-		jButton2.addActionListener(new java.awt.event.ActionListener() {
+		getContentPane().add(jTextFieldPassword,BorderLayout.CENTER);
+		
+		getContentPane().add(jLabelGradDebt,BorderLayout.CENTER);
+		getContentPane().add(jTextFieldGradDebt,BorderLayout.CENTER);
+		getContentPane().add(jLabelDebt,BorderLayout.CENTER);
+		getContentPane().add(jTextFieldDebt,BorderLayout.CENTER);
+		getContentPane().add(jLabelInterest,BorderLayout.CENTER);
+		getContentPane().add(jTextFieldInterest,BorderLayout.CENTER);
+		getContentPane().add(jLabelGrad,BorderLayout.CENTER);
+		getContentPane().add(jTextFieldGrad,BorderLayout.CENTER);
+		getContentPane().add(jLabelBirth,BorderLayout.CENTER);
+		getContentPane().add(jTextFieldBirth,BorderLayout.CENTER);
+		getContentPane().add(jLabelProvince,BorderLayout.CENTER);
+		getContentPane().add(jComboBoxProvince,BorderLayout.CENTER);
+		getContentPane().add(jLabelEducation,BorderLayout.CENTER);
+		getContentPane().add(jComboBoxEducation,BorderLayout.CENTER);
+		getContentPane().add(jLabelField,BorderLayout.CENTER);
+		getContentPane().add(jComboBoxField,BorderLayout.CENTER);
+		getContentPane().add(jLabelSex,BorderLayout.CENTER);
+		getContentPane().add(jComboBoxSex,BorderLayout.CENTER);
+		//jTextFieldUsername.setBounds(260, 120, 210, 30);
+		jButtonCreate.setPreferredSize(new Dimension(180,80));
+		jButtonCreate.setAlignmentX(LEFT_ALIGNMENT);
+		getContentPane().add(jButtonCreate,BorderLayout.CENTER);
+		//jButtonCreate.setBounds(280, 620, 180, 80);
+		getContentPane().setVisible(true);
+		jButtonBack.setText("Back");
+		jButtonBack.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
 				jButton2ActionPerformed(evt);
 			}
 		});
-		getContentPane().add(jButton2);
-		jButton2.setBounds(0, 510, 120, 60);
+		getContentPane().add(jButtonBack,BorderLayout.CENTER);
+		//jButtonBack.setBounds(0, 510, 120, 60);
 
-		jLabel2.setFont(new java.awt.Font("Tahoma", 1, 14));
-		jLabel2.setText("User Name");
-		getContentPane().add(jLabel2);
-		jLabel2.setBounds(101, 111, 160, 60);
-
-		jLabel1.setFont(new java.awt.Font("Tahoma", 1, 14));
-		jLabel1.setText("Password");
-		getContentPane().add(jLabel1);
-		jLabel1.setBounds(100, 240, 160, 60);
-		getContentPane().add(jTextField2);
-		jTextField2.setBounds(260, 250, 210, 30);
-		getContentPane().add(jTextField1);
-		jTextField1.setBounds(260, 120, 210, 30);
-
+		
+		
 		pack();
 	}
 
 	private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {
 
-		if (jTextField1.getText().equals("") || jTextField2.getText().equals("")) {
+		if (jTextFieldUsername.getText().equals("") || jTextFieldPassword.getText().equals("")) {
 			JOptionPane.showMessageDialog(null, "Do not leave any of the fields empty.");
 		} else {
 
@@ -85,8 +141,8 @@ public class Create extends javax.swing.JFrame {
 			String id;
 			String pas;
 
-			String user;
-			String pass;
+			String user = jTextFieldUsername.getText();
+			String pass = jTextFieldUsername.getText();;
 			String filepath = "CreateAndLogin.txt";
 			File f = new File(filepath);
 			FileWriter fw = null;
@@ -105,18 +161,18 @@ public class Create extends javax.swing.JFrame {
 			}
 			try {
 				if (appen == false) {
-					fw.write(jTextField1.getText().toString());
+					fw.write(jTextFieldUsername.getText().toString());
 					fw.write("\n");
-					fw.write(jTextField2.getText().toString());
+					fw.write(jTextFieldPassword.getText().toString());
 					fw.write("\n");
 					JOptionPane.showMessageDialog(null, "Create Account");
 					this.setVisible(false);
 					new AccountPro().setVisible(true);
 
 				} else {
-					fw.append(jTextField1.getText().toString());
+					fw.append(jTextFieldUsername.getText().toString());
 					fw.append("\n");
-					fw.append(jTextField2.getText().toString());
+					fw.append(jTextFieldPassword.getText().toString());
 					fw.append("\n");
 					fw.close();
 
@@ -164,11 +220,29 @@ public class Create extends javax.swing.JFrame {
 		});
 	}
 
-	private javax.swing.JButton jButton1;
-	private javax.swing.JButton jButton2;
-	private javax.swing.JLabel jLabel1;
-	private javax.swing.JLabel jLabel2;
-	private javax.swing.JTextField jTextField1;
-	private javax.swing.JTextField jTextField2;
+	private javax.swing.JButton jButtonCreate;
+	private javax.swing.JButton jButtonBack;
+	private javax.swing.JLabel jLabelPassword;
+	private javax.swing.JLabel jLabelUsername;
+	private javax.swing.JTextField jTextFieldUsername;
+	private javax.swing.JTextField jTextFieldPassword;
+	private javax.swing.JLabel jLabelGradDebt;
+	private javax.swing.JLabel jLabelDebt;
+	private javax.swing.JTextField jTextFieldGradDebt;
+	private javax.swing.JTextField jTextFieldDebt;
+	private javax.swing.JLabel jLabelInterest;
+	private javax.swing.JLabel jLabelGrad;
+	private javax.swing.JTextField jTextFieldInterest;
+	private javax.swing.JTextField jTextFieldGrad;
+	private javax.swing.JLabel jLabelBirth;
+	private javax.swing.JLabel jLabelProvince;
+	private javax.swing.JTextField jTextFieldBirth;
+	private javax.swing.JComboBox jComboBoxProvince;
+	private javax.swing.JLabel jLabelEducation;
+	private javax.swing.JLabel jLabelSex;
+	private javax.swing.JComboBox jComboBoxEducation;
+	private javax.swing.JComboBox jComboBoxSex;
+	private javax.swing.JLabel jLabelField;
+	private javax.swing.JComboBox jComboBoxField;
 
 }
