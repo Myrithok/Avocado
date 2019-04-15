@@ -1,6 +1,6 @@
 package avocado;
 
-public enum FieldOfStudy {
+enum FieldOfStudy {
 	TotalFieldOfStudy, Education, VisualAndPerformingArtsAndCommunicationsTechnologies,
 	CommunicationsTechnologiesAndTechniciansAndSupportServices, VisualAndPerformingArts, Humanities,
 	AboriginalAndForeignLanguagesLiteraturesAndLinguistics, EnglishLanguageAndLiteratureLetters,

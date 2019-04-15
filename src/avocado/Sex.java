@@ -1,6 +1,6 @@
 package avocado;
 
-public enum Sex {
+enum Sex {
 	Male, Female, PreferNotToSpecify;
 
 	public int toval() {
