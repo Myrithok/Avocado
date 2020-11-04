@@ -1,6 +1,6 @@
 # Avocado
 
-This project was developed for the course COMPSCI 2XB3 - "Computer Science Practice and Experience: Binding Theory to Practice" at McMaster University in the Winter 2019 term.
+This project was developed for the course COMPSCI 2XB3 - "Computer Science Practice and Experience: Binding Theory to Practice" at McMaster University in the Winter 2019 term by Dakota McKay, Daniel Wu, Erfan Jamilifar, and myself.
 
 Avocado is a social application for gamifying the repayment of student debt.
 
